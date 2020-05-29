@@ -205,7 +205,7 @@
                                 <div class="card-body font-weight-bold">
                                     <div class="text-left">
                                         <i class="fas fa-clock weather mr-4"></i>
-                                    <span class="title">Timezone Offset</span>
+                                    <span class="title">Timezone</span>
                                     </div>
                                     <div class="text-right value">
                                         <span>{{data.timezone}}</span>
