@@ -1,0 +1,98 @@
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+
+}
+
+#app.cool{
+    background: rgb(255,239,168);
+    background: linear-gradient(360deg, rgba(255,239,168,1) 40%, rgba(128,192,249,1) 70%);
+}
+#app.warm{
+    background: rgb(255,239,168);
+    background: linear-gradient(180deg, rgba(255,239,168,1) 40%, rgba(128,192,249,1) 70%);  
+}
+
+
+.appname {
+    color:#3498DB ;
+    font-style: italic;
+}
+/* #1D1E22 */
+.temp {
+    font-size: 3.4em;
+}
+
+.details .card {
+    margin-bottom: 5%;
+    border:none;
+}
+
+.details .weather {
+    font-size: 1.6em;
+}
+
+.details .title {
+    font-size: 1.2em;
+}
+
+.weatherUpdate {
+    margin:3% 0% 10%;
+}
+
+
+
+.forcast {
+    background-image: url("https://images.unsplash.com/photo-1529923123842-3310dfdc0b10?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #333;
+    padding:5%;
+    width:100%;
+    font-weight: 600;
+    border:none;
+}
+
+.forcast.cold {
+    background-image: url("https://images.unsplash.com/photo-1459695452562-46cc57bef5f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+    color: #fff;
+}
+
+.forcast h2 {
+    font-weight: 600;
+    color: #fff;
+}
+
+.searchbar{
+        width: 100%;
+}
+
+.country h4 {
+    font-weight: 600;
+}
+
+
+/* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
+@media (min-width: 768px) {  
+    .searchbar{
+        width: 60%;
+    }
+    .forcast {
+        padding: 10%;
+    }
+}
+ 
+/* Large devices (desktops, 1000px and up) */
+@media (min-width: 1000px) { 
+    .searchbar{
+        width: 60%;
+    }
+
+    .forcast {
+        padding: 15%;
+    }
+}
