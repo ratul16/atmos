@@ -2,8 +2,13 @@
     <div class="container">
 
         <div class="head pt-4">
-            <h1 class="text-uppercase font-weight-bold"> <span class="appname">A</span>t<span class="appname">M</span>o<span class="appname">S</span></h1>
-            
+            <h1 class="text-uppercase font-weight-bold">
+                <transition name="fade">
+                    <img v-if="show" src="../assets/logo.svg" class="mr-2" width="60">
+                </transition>
+                <span class="appname">a</span>t<span class="appname">m</span>o<span class="appname">s</span>
+            </h1>
+
             <br />
             <div class="searchbar mx-auto">
                 <form class="form-group justify-content-center" @submit="searchWeather($event)">
@@ -29,6 +34,11 @@
                     </div>
                 </form>
             </div>
+        </div>
+
+        <div class="weatherbody" v-if="!show">
+            <img src="../assets/logo.svg" alt="" srcset="">
+            <h4 class="text capitalize">Your Neighborhood Weather App</h4>
         </div>
 
         <transition name="fade">
@@ -159,6 +169,51 @@
                             </div>
                         </div>
 
+
+                        <div class="col-sm-6 col-md-4 col-lg-4">
+                            <div class="card rounded shadow">
+                                <div class="card-body font-weight-bold">
+                                    <div class="text-left">
+                                        <i class="fas fa-sun weather mr-4"></i>
+                                    <span class="title">Sunrise</span>
+                                    </div>
+                                    <div class="text-right value">
+                                        <span>{{getTime(data.city.sunrise)}} AM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-6 col-md-4 col-lg-4">
+                            <div class="card rounded shadow">
+                                <div class="card-body font-weight-bold">
+                                    <div class="text-left">
+                                        <i class="far fa-sun weather mr-4"></i>
+                                    <span class="title">Sunset</span>
+                                    </div>
+                                    <div class="text-right value">
+                                        <span>{{getTime(data.city.sunset)}} PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-6 col-md-4 col-lg-4">
+                            <div class="card rounded shadow">
+                                <div class="card-body font-weight-bold">
+                                    <div class="text-left">
+                                        <i class="fas fa-clock weather mr-4"></i>
+                                    <span class="title">Timezone Offset</span>
+                                    </div>
+                                    <div class="text-right value">
+                                        <span>{{data.timezone}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
 
@@ -187,7 +242,8 @@ export default {
             base: '',
             wind : '',
             cloudy : '',
-            coord:''
+            coord:'',
+            timezone:''
         }
     }),
     methods: {
@@ -213,7 +269,8 @@ export default {
                     base: val.main,
                     wind : val.wind,
                     cloudy : val.clouds.all,
-                    coord:val.coord
+                    coord:val.coord,
+                    timezone: val.timezone
                 }
                 //console.log(weather)
                 this.data = weather
@@ -228,6 +285,13 @@ export default {
             })
 
         },
+        getTime(val){
+            let date = new Date(val*1000);
+            let hr = date.getHours();
+            let m = "0" + date.getMinutes();
+            let s = "0" + date.getSeconds();
+            return hr+ ' : ' + m.substr(-2) + ' : ' + s.substr(-2);
+        }
         
     },
 };
