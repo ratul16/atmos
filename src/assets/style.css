@@ -7,13 +7,13 @@
 
 }
 
-body{
+/* body{
     background: rgb(255,247,230);
     background: linear-gradient(90deg, rgba(255,247,230,1) 0%, rgba(150,215,255,1) 73%, rgba(32,150,255,0.969625350140056) 100%);
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-}
+} */
 
 
 .appname {
