@@ -62,7 +62,7 @@
                     <div class="">
                         <h4 class="text-left mb-2">
                             <strong>Details</strong> 
-                            <img :src="`http://openweathermap.org/img/wn/${data.condition.icon}@2x.png`" width="70" loading='lazy' />
+                            <img :src="`https://openweathermap.org/img/wn/${data.condition.icon}@2x.png`" width="70" loading='lazy' />
                         </h4>
                     </div>
                     
