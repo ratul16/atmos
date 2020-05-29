@@ -200,7 +200,7 @@ export default {
 
             let KEY = process.env.VUE_APP_KEY; 
             
-            const API = `http://api.openweathermap.org/data/2.5/weather?q=${this.search}&APPID=${KEY}&units=metric`
+            const API = `https://api.openweathermap.org/data/2.5/weather?q=${this.search}&APPID=${KEY}&units=metric`
 
             await axios.get(API)
             .then(res => {
