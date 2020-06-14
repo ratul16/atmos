@@ -218,22 +218,40 @@
 
 
                 </div>
+
+                
+                <div class="daily my-4" v-if="show">
+                    <button class="btn vBtn"> Show Graph</button>
+                    <div class="graph">
+                            <h4 class="text-left"><strong>Daily Update</strong></h4>
+                        <br>
+                        <div class="card rounded shadow border-0">
+                            <div class="card-body font-weight-bold">
+                                <div class="text-left">
+                                    <i class="fas fa-thermometer-full weather mr-4"></i>
+                                <span class="title">Temperature</span>
+                                </div>
+                                <Graph :tData="tempdata"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
             </div>
-
-            <!-- <div class="daily my-4">
-                <h4 class="text-left"><strong>Daily Update</strong></h4>
-            </div> -->
         </transition>
-
+        
     </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Graph from '@/components/Graph'
 
 export default {
+    components:{Graph},
     data: () => ({
-        show:false,
+        show:true,
         search:'',
         data:{
             name : '',
@@ -244,7 +262,8 @@ export default {
             cloudy : '',
             coord:'',
             timezone:''
-        }
+        },
+        tempdata:[20,11,21,15,14,13,10]
     }),
     methods: {
         async searchWeather(e) {
@@ -256,9 +275,9 @@ export default {
 
             let KEY = process.env.VUE_APP_KEY; 
             
-            const API = `https://api.openweathermap.org/data/2.5/weather?q=${this.search}&APPID=${KEY}&units=metric`
+            const current = `https://api.openweathermap.org/data/2.5/weather?q=${this.search}&APPID=${KEY}&units=metric`
 
-            await axios.get(API)
+            await axios.get(current)
             .then(res => {
 
                 let val  = res.data
@@ -285,19 +304,31 @@ export default {
             })
 
         },
+        
         getTime(val){
             let date = new Date(val*1000);
             let hr = date.getHours();
             let m = "0" + date.getMinutes();
             let s = "0" + date.getSeconds();
             return hr+ ' : ' + m.substr(-2) + ' : ' + s.substr(-2);
+        },
+        getdaily(){
+
         }
         
     },
 };
 </script>
 
-<style>
+<style scoped>
+.vBtn{
+    background-color: #3498DB;
+    border-color: #3498DB;
+    color: #fff;
+}
 
-
+.vBtn:hover{
+    transform:scale(1.1);
+    transition:.5s
+}
 </style>

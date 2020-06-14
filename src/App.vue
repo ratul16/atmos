@@ -5,17 +5,16 @@
     </a>
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <Weather/>
+    
   </div>
 </template>
 
 <script>
 import Weather from './components/Weather'
 
+
 export default {
   name: 'App',
-  data:()=>({
-    temp :''
-  }),
   components: {
     Weather
   },
