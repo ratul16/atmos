@@ -5,16 +5,11 @@
       <div class="weather-card">
         <h6 class="text-muted">Air Quality <i class="fas fa-fan" /></h6>
         <div class="content">
-          <span>{{airQualityInfo[checkAirQuality(30)].label}}</span>
+          <span>{{airQualityInfo[4].label}}</span>
           <i
             class="fas fa-info-circle r-tooltip"
-            :data-text="airQualityInfo[checkAirQuality(30)].des"
+            :data-text="airQualityInfo[4].des"
           />
-
-          <!-- <span class="">
-            {{ airQualityInfo[checkAirQuality(30)].des }}
-          </span> -->
-          <!-- <span class="small-text">{{airQualityInfo[checkAirQuality(30)].des}}</span> -->
         </div>
       </div>
       <div class="weather-card">
@@ -138,6 +133,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/scss/_mixins.scss";
+
 .current-update {
   margin-bottom: 20px;
   .detail-cards {
@@ -159,6 +156,22 @@ export default {
           font-size: 20px;
         }
       }
+    }
+  }
+}
+
+@include media-queries('desktop') {
+  .current-update {
+    .detail-cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+@include media-queries('tab-sm') {
+  .current-update {
+    .detail-cards {
+      grid-template-columns: 1fr;
     }
   }
 }

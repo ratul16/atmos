@@ -1,6 +1,6 @@
 <template>
   <div class="weather-dashboard">
-    <b-row justify="between" class="mr-0">
+    <b-row justify="between" class="mx-0">
       <b-col md="4" sm="6">
         <b-card class="searchbar">
           <b-input-group>
@@ -70,8 +70,9 @@
             </div>
           </div>
           <div class="details-body">
-            <TodayHighlight />
+            <TodayHighlight :weatherData="weatherData" />
             <WeeklyHighlight />
+            <!-- <AirPollutionChart v-if="airPollution.length" :airPollution="airPollution" /> -->
           </div>
         </div>
       </b-col>
@@ -83,34 +84,46 @@
 import api from '@/scripts/api'
 import TodayHighlight from '@/components/TodayHighlight'
 import WeeklyHighlight from '@/components/WeeklyHighlight'
+// import AirPollutionChart from '@/components/AirPollutionChart'
 
 export default {
   name: "WeatherDashboard",
   components: {
     TodayHighlight,
     WeeklyHighlight,
+    // AirPollutionChart,
   },
   data() {
     return {
       searchQuery: 'dhaka',
-      weatherData: ''
+      weatherData: '',
+      airPollution: [],
     }
   },
   mounted () {
-    // this.getWeatherData();
+    this.getWeatherData();
+    // this.getAirPollutionData();
   },
   methods: {
     getWeatherData() {
       api.get(`weather?q=${this.searchQuery}&APPID=${process.env.VUE_APP_KEY}&units=metric`).then(response => {
         if (response.data.cod === 200) {
-          // console.log(response.data);
           this.weatherData = response.data
         }
       }).catch(function (error) {
-        // handle error
         console.log(error);
         alert(
           "City Name Invaild/ Not Found.\nUse Proper City Name. Ex: new york, london "
+        );
+      });
+    },
+    getAirPollutionData(lat, lon) {
+      api.get(`air_pollution?lat=${lat}&lon=${lon}&APPID=${process.env.VUE_APP_KEY}`).then(response => {
+        this.weatherData.air_quality = response.data.list[0].main.aqi
+      }).catch(function (error) {
+        console.log(error);
+        alert(
+          "City Coord Invaild/ Not Found."
         );
       });
     }
@@ -119,6 +132,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/scss/_mixins.scss";
+
 .weather-dashboard {
   background-color: #f6f5f9;
   .celsius, .fahrenheit {
@@ -258,10 +273,6 @@ export default {
           object-position: top;
         }
       }
-    }
-    .details-body {
-      
-      
     }
   }
 }

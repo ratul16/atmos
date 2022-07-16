@@ -4,7 +4,7 @@
     <div class="weekly-temps">
       <div class="temp-card" v-for="day in 7" :key="day">
         <span class="day">
-          {{ day }}
+          {{ weekDays[day] }}
         </span>
         <img
           class="icon"
@@ -12,8 +12,8 @@
           loading="lazy"
         />
         <div class="temp">
-          <span>12</span> | 
-          <span>23</span>
+          <span>12&#176;</span> | 
+          <span>23&#176;</span>
         </div>
       </div>
     </div>
@@ -23,17 +23,34 @@
 <script>
 export default {
   name: 'WeeklyHighlight',
+  data() {
+    return {
+      weekDays: {
+        1: 'Sat',
+        2: 'Sun',
+        3: 'Mon',
+        4: 'Tue',
+        5: 'Wed',
+        6: 'Thu',
+        7: 'Fri',
+      }
+    }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/scss/_mixins.scss";
+
 .weekly-update {
   margin-bottom: 20px;
   .weekly-temps {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    display: flex;
+    overflow-x: auto;
     gap: 20px;
     .temp-card {
+      flex-basis: calc( 100% / 7 );
+      min-width: 120px;
       border-radius: 5px;
       display: flex;
       flex-direction: column;
