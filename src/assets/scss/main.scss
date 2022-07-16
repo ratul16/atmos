@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Roboto+Slab&display=swap");
+@import 'mixins';
+
+$bg-variant: #f6f5f9;
+
+#app {
+  font-family: "Roboto Slab", serif;
+  background-color: $bg-variant;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.r-tooltip {
+  position: relative;
+  &::after {
+    position: absolute;
+    top: -60px;
+    background: $bg-variant;
+    font-size: 14px;
+    font-family: "Roboto Slab", serif;
+    font-weight: 400;
+    border-radius: 4px;
+    content: attr(data-text);
+    display: none;
+    padding: 10px;
+    width: 260px;
+    z-index: 1;
+    transition: all 0.3s ease-in-out;
+  }
+  &:hover::after {
+    display: block;
+  }
+}

@@ -1,18 +1,17 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <Weather/>
+    <WeatherDashboard />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Weather from '@/components/Weather.vue'
+import WeatherDashboard from "@/components/WeatherDashboard.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    Weather
-  }
-}
+    WeatherDashboard,
+  },
+};
 </script>

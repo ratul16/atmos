@@ -10,7 +10,6 @@
           >s</span
         >
       </h1>
-
       <br />
       <div class="searchbar mx-auto">
         <form
@@ -79,9 +78,7 @@
             <h4 class="text-left mb-2">
               <strong>Details</strong>
               <img
-                :src="
-                  `https://openweathermap.org/img/wn/${data.condition.icon}@2x.png`
-                "
+                :src="`https://openweathermap.org/img/wn/${data.condition.icon}@2x.png`"
                 width="70"
                 loading="lazy"
               />
@@ -246,18 +243,15 @@ export default {
       timezone: "",
     },
   }),
-  mounted () {
+  mounted() {
     console.log(process.env.VUE_APP_KEY);
   },
   methods: {
     async searchWeather(e) {
       e.preventDefault();
-
       const cityValid = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/.test(this.search);
       cityValid ? false : alert("Wrong City Name");
-
       let KEY = process.env.VUE_APP_KEY;
-
       const API = `https://api.openweathermap.org/data/2.5/weather?q=${this.search}&APPID=${KEY}&units=metric`;
 
       await axios
@@ -280,7 +274,7 @@ export default {
           //this.$emit('temp',val.main.temp)
           this.search = "";
         })
-        .catch(function(error) {
+        .catch(function (error) {
           // handle error
           console.log(error);
           alert(
