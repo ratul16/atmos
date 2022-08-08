@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1185241,
+    "coord": { "lon": 90.40744, "lat": 23.7104 },
+    "country": "BD",
+    "name": "Dhaka"
+  },
+  {
+    "id": 2643743,
+    "coord": { "lon": -0.12574, "lat": 51.50853 },
+    "country": "GB",
+    "name": "London"
+  },
+  {
+    "id": 2655603,
+    "coord": { "lon": -1.89983, "lat": 52.481419 },
+    "country": "GB",
+    "name": "Birmingham"
+  },
+  {
+    "id": 5128581,
+    "coord": { "lon": -74.005966, "lat": 40.714272 },
+    "country": "US",
+    "geoname": { "cl": "P", "code": "PPL", "parent": 5128638 },
+    "name": "New York"
+  },
+  {
+    "id": 6167865,
+    "coord": { "lon": -79.416298, "lat": 43.700111 },
+    "country": "CA",
+    "name": "Toronto"
+  }
+]

@@ -26,11 +26,12 @@ $white: #fff;
 
 .r-tooltip {
   position: relative;
+  cursor: pointer;
   &::after {
     position: absolute;
     top: -60px;
     left: 100%;
-    background: $bg-variant;
+    background: $hover;
     font-size: 14px;
     font-family: "Roboto Slab", serif;
     font-weight: 400;
@@ -38,7 +39,7 @@ $white: #fff;
     content: attr(data-text);
     display: none;
     padding: 15px;
-    width: 260px;
+    width: 280px;
     z-index: 1;
     transition: all 0.3s ease-in-out;
   }

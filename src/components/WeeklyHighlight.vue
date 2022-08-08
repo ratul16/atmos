@@ -38,6 +38,12 @@ export default {
   // components: {
   //   VueApexCharts,
   // },
+  props: {
+    coord: {
+      type: Object,
+      default: () => {}
+    },
+  },
   data() {
     return {
       options: {
@@ -288,13 +294,11 @@ export default {
     };
   },
   mounted() {
-    // this.getForecastData(35, 139);
+    // this.getForecastData(this.coord.lat, this.coord.lon);
   },
   methods: {
     getForecastData(lat, lon) {
-      api.get(
-          `forecast?lat=${lat}&lon=${lon}&APPID=${process.env.VUE_APP_KEY}&units=metric`
-        )
+      api.get(`forecast?lat=${lat}&lon=${lon}&APPID=${process.env.VUE_APP_KEY}&units=metric`)
         .then((response) => {
           if (response.status) {
             this.forecastData = response.data.list;

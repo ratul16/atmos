@@ -14,15 +14,16 @@
       <b-input-group>
         <b-form-input
           v-model="searchQuery"
-          placeholder="Search for places ..."
+          placeholder="Enter city names..."
+          @focus="isVisible = !isVisible"
         />
         <template #append>
           <div class="location" @click="getWeatherData">
-            <i class="fas fa-crosshairs" />
+            <i class="fas fa-search" />
           </div>
         </template>
       </b-input-group>
-      <div class="search-results">
+      <div class="search-results" v-if="isVisible">
         <!-- <div class="search-card">
           <div class="font-weight-bold">
             Please enter valid address
@@ -31,17 +32,19 @@
         <div class="search-card">
           <div class="font-weight-bold">No information found</div>
         </div> -->
-        <div class="search-card" v-for="x in testResults" :key="x.city_name">
-          <div class="result">
-            <div class="name">{{ x.city_name }}, {{ x.short_code }}</div>
+        <div class="search-card" v-for="x in cityList" :key="x.id">
+          <div class="result" @click="getSelectedCity(x)">
+            <div class="name">{{ x.name }}, {{ x.country }}</div>
+            <small class="text-muted">{{ x.coord.lat || '' }}, {{ x.coord.lon || '' }}</small>
           </div>
         </div>
       </div>
     </div>
     <div class="weather-details">
-      <div class="details-body">
+      <!-- {{getFilterCityList}} -->
+      <div class="details-body" v-if="!isDataLoading">
         <TodayHighlight :weatherData="weatherData" />
-        <WeeklyHighlight />
+        <WeeklyHighlight :coord="weatherData.coord" />
         <!-- <AirPollutionChart /> -->
       </div>
     </div>
@@ -49,6 +52,7 @@
 </template>
 
 <script>
+import cities from '@/data/city'
 import api from '@/scripts/api';
 import TodayHighlight from '@/components/TodayHighlight';
 import WeeklyHighlight from '@/components/WeeklyHighlight';
@@ -63,9 +67,9 @@ export default {
   },
   data() {
     return {
-      lat: 50,
-      lon: 50,
-      searchQuery: 'dhaka',
+      searchQuery: '',
+      isVisible: false,
+      isDataLoading: false,
       weatherData: {
         coord: {
           lon: 90.4074,
@@ -133,6 +137,7 @@ export default {
           find_more: 3,
         },
       ],
+      cityList: cities,
     };
   },
   mounted() {
@@ -140,13 +145,16 @@ export default {
     // this.getAirPollutionData(50, 50);
   },
   methods: {
+    getSelectedCity(city) {
+      this.searchQuery = city ? city.name: ''
+      this.getWeatherData()
+      this.isVisible = false
+    },
     getWeatherData() {
-      api
-        .get(
-          `weather?q=${this.searchQuery}&APPID=${process.env.VUE_APP_KEY}&units=metric`
-        )
+      this.isDataLoading = true
+      api.get(`weather?q=${this.searchQuery}&APPID=${process.env.VUE_APP_KEY}&units=metric`)
         .then((response) => {
-          if (response.data.cod === 200) {
+          if (response.status === 200) {
             this.weatherData = response.data;
           }
         })
@@ -155,13 +163,13 @@ export default {
           alert(
             'City Name Invaild/ Not Found.\nUse Proper City Name. Ex: new york, london '
           );
-        });
+        }).finally(() => {
+          this.isVisible = false
+          this.isDataLoading = false
+        })
     },
     getAirPollutionData(lat, lon) {
-      api
-        .get(
-          `air_pollution?lat=${lat}&lon=${lon}&APPID=${process.env.VUE_APP_KEY}`
-        )
+      api.get(`air_pollution?lat=${lat}&lon=${lon}&APPID=${process.env.VUE_APP_KEY}`)
         .then((response) => {
           this.weatherData.air_quality = response.data.list[0].main.aqi;
         })
@@ -268,8 +276,11 @@ export default {
       }
     }
     .search-results {
+      // display: none;
       position: absolute;
+      overflow-y: auto;
       width: 100%;
+      height: 300px;
       left: 0;
       top: 60px;
       background-color: $white;
@@ -288,6 +299,9 @@ export default {
         }
       }
     }
+  }
+  .weather-details {
+    padding-bottom: 10px;
   }
 }
 </style>
