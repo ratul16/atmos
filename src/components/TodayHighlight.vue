@@ -15,21 +15,21 @@
       <div class="weather-card">
         <h6 class="text-muted">Wind Speed <i class="fas fa-wind" /></h6>
         <div class="content">
-          <span>7.70</span>
-          <span class="small-text">km/h (50&#176;)</span>
+          <span>{{ weatherData.wind.speed || 'N/A' }}</span>
+          <span class="small-text">km/h ({{ weatherData.wind.deg || ''}}&#176;)</span>
         </div>
       </div>
       <div class="weather-card">
         <h6 class="text-muted">Humidity <i class="fas fa-tint" /></h6>
         <div class="content">
-          <span>7.70</span>
+          <span>{{ weatherData.main.humidity }}</span>
           <span class="small-text">%</span>
         </div>
       </div>
       <div class="weather-card">
         <h6 class="text-muted">Pressure <i class="fas fa-compass" /></h6>
         <div class="content">
-          <span>1001</span>
+          <span>{{ weatherData.main.pressure }}</span>
           <span class="small-text">hPa</span>
         </div>
       </div>
@@ -38,22 +38,27 @@
           Min/Max Temperature <i class="fas fa-thermometer-half" />
         </h6>
         <div class="content">
-          <span>14&#176; | </span> 
-          <span>20&#176;</span> 
+          <span>{{ weatherData.main.temp_min.toFixed(1) }}&#176; | </span> 
+          <span>{{ weatherData.main.temp_max.toFixed(1) }}&#176;</span> 
         </div>
       </div>
-      <!-- <div class="weather-card">
-                  <h6 class="text-muted">Coordinate</h6>
-                  <div class="content">
-                    <span>7.70</span>
-                    <span class="small-text">km/h</span>
-                  </div>
-                </div> -->
       <div class="weather-card">
         <h6 class="text-muted">Visibility <i class="fas fa-low-vision" /></h6>
         <div class="content">
           <span>5.2</span>
           <span class="small-text">km</span>
+        </div>
+      </div>
+      <div class="weather-card">
+        <h6 class="text-muted">Latitude</h6>
+        <div class="content">
+          <span>{{ weatherData.coord.lat }}&#176;</span>
+        </div>
+      </div>
+      <div class="weather-card">
+        <h6 class="text-muted">Longitude</h6>
+        <div class="content">
+          <span>{{ weatherData.coord.lon }}&#176;</span>
         </div>
       </div>
     </div>
