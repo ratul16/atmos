@@ -294,7 +294,7 @@ export default {
     };
   },
   mounted() {
-    // this.getForecastData(this.coord.lat, this.coord.lon);
+    this.getForecastData(this.coord.lat, this.coord.lon);
   },
   methods: {
     getForecastData(lat, lon) {
