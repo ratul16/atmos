@@ -4,7 +4,7 @@
     <div class="weekly-temps">
       <div class="temp-card" v-for="(day, index) in forecastData" :key="index">
         <span class="day font-weight-bold">
-          {{ weekDays[new Date(day.dt_txt).getDay()] }}
+          {{ (new Date(day.dt_txt)).toLocaleDateString('en-us', { weekday:"short"}) }}
         </span>
         <small class="Time text-muted">
           {{
@@ -61,15 +61,6 @@ export default {
           data: [94, 40, 95, 50, 49, 60, 70, 91]
         }
       ],
-      weekDays: {
-        6: 'Sat',
-        7: 'Sun',
-        1: 'Mon',
-        2: 'Tue',
-        3: 'Wed',
-        4: 'Thu',
-        5: 'Fri',
-      },
       forecastData: [
         {
           dt: 1659981600,
@@ -294,7 +285,7 @@ export default {
     };
   },
   mounted() {
-    this.getForecastData(this.coord.lat, this.coord.lon);
+    // this.getForecastData(this.coord.lat, this.coord.lon);
   },
   methods: {
     getForecastData(lat, lon) {

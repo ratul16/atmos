@@ -8,7 +8,13 @@
             <h6>Destination <i class="fas fa-city"/></h6>
             <span>{{weatherData.name || ''}}, {{weatherData.sys.country}}</span> <br>
           </div>
-          <h4>Feels Like {{ weatherData.main.feels_like.toFixed(1) }}&#176;</h4> 
+          <div>
+            <h4>Feels Like {{ weatherData.main.feels_like.toFixed(1) }}&#176;</h4> 
+            <h6>
+              Coordinates 
+              {{ weatherData.coord.lat }}&#176;, {{ weatherData.coord.lon }}&#176;
+            </h6> 
+          </div>
         </div>
       </div>
       <div class="weather-card">
@@ -66,19 +72,7 @@
           <span class="small-text">km</span>
         </div>
       </div>
-      <div class="weather-card">
-        <h6 class="text-muted">Latitude <i class="fas fa-compass" /></h6>
-        <div class="content">
-          <span>{{ weatherData.coord.lat }}&#176;</span>
-        </div>
-      </div>
-      <div class="weather-card">
-        <h6 class="text-muted">Longitude <i class="fas fa-compass" /></h6>
-        <div class="content">
-          <span>{{ weatherData.coord.lon }}&#176;</span>
-        </div>
-      </div>
-      <div class="weather-card">
+      <!-- <div class="weather-card">
         <h6 class="text-muted">Air Quality <i class="fas fa-fan" /></h6>
         <div class="content">
           <span>{{airQualityInfo[4].label}}</span>
@@ -87,7 +81,7 @@
             :data-text="airQualityInfo[4].des"
           />
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -189,7 +183,6 @@ export default {
         }
       }
       &:first-child {
-        // grid-column: 1 / 3;
         grid-row: 1 / 3;
         padding: 0;
       }

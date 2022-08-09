@@ -45,7 +45,7 @@
       <div class="details-body" v-if="!isDataLoading">
         <TodayHighlight :weatherData="weatherData" />
         <WeeklyHighlight :coord="weatherData.coord" />
-        <!-- <AirPollutionChart /> -->
+        <AirPollutionChart />
       </div>
     </div>
   </div>
@@ -56,14 +56,14 @@ import cities from '@/data/city'
 import api from '@/scripts/api';
 import TodayHighlight from '@/components/TodayHighlight';
 import WeeklyHighlight from '@/components/WeeklyHighlight';
-// import AirPollutionChart from '@/components/AirPollutionChart'
+import AirPollutionChart from '@/components/AirPollutionChart'
 
 export default {
   name: 'WeatherDashboard',
   components: {
     TodayHighlight,
     WeeklyHighlight,
-    // AirPollutionChart,
+    AirPollutionChart,
   },
   data() {
     return {
@@ -114,29 +114,6 @@ export default {
         cod: 200,
       },
       airPollution: [],
-      testResults: [
-        {
-          city_name: 'Calabasas',
-          short_code: 'CA',
-          rate: 1500,
-          apartment_bed: 2,
-          find_more: 3,
-        },
-        {
-          city_name: 'Long Beach',
-          short_code: 'LA',
-          rate: 2000,
-          apartment_bed: 1,
-          find_more: 2,
-        },
-        {
-          city_name: 'Paris',
-          short_code: 'PA',
-          rate: 5500,
-          apartment_bed: 3,
-          find_more: 3,
-        },
-      ],
       cityList: cities,
     };
   },

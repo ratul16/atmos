@@ -47,3 +47,20 @@ $white: #fff;
     display: block;
   }
 }
+
+.quality-level {
+  position: relative;
+  border: 2px solid var(--bg-color);
+  span {
+    color: var(--bg-color);
+  }
+  &::after {
+    height: 20px;
+    content: '';
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    
+  }
+}
