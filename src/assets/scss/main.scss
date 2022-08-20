@@ -49,18 +49,21 @@ $white: #fff;
 }
 
 .quality-level {
-  position: relative;
-  border: 2px solid var(--bg-color);
+  border-left: 4px solid var(--bg-color);
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
   span {
     color: var(--bg-color);
   }
-  &::after {
-    height: 20px;
-    content: '';
-    width: 100%;
-    position: absolute;
-    top: 0;
-    z-index: 1;
-    
+}
+
+.quality-border {
+  position: relative;
+  border-left: 4px solid var(--bg-color);
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  .condition {
+    color: var(--bg-color);
+    font-weight: 600;
   }
 }

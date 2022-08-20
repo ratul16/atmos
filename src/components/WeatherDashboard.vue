@@ -71,7 +71,7 @@ export default {
   },
   data() {
     return {
-      searchQuery: 'Birmingham',
+      searchQuery: '',
       isVisible: false,
       isDataLoading: false,
       weatherData: {
