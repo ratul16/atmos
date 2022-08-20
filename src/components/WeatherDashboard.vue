@@ -42,11 +42,15 @@
     </div>
     <div class="weather-details">
       <!-- {{getFilterCityList}} -->
-      <div class="details-body" v-if="!isDataLoading">
+      <div class="loading" v-if="isDataLoading">
+        <h4>Data loading</h4>
+      </div>
+      <div class="details-body" v-else>
         <TodayHighlight :weatherData="weatherData" />
         <WeeklyHighlight :coord="weatherData.coord" />
-        <AirPollutionChart />
+        <AirPollutionChart :airPollution="airPollution" />
       </div>
+      
     </div>
   </div>
 </template>
@@ -67,7 +71,7 @@ export default {
   },
   data() {
     return {
-      searchQuery: '',
+      searchQuery: 'Birmingham',
       isVisible: false,
       isDataLoading: false,
       weatherData: {
@@ -113,13 +117,26 @@ export default {
         name: 'Dhaka',
         cod: 200,
       },
-      airPollution: [],
+      airPollution: [
+        {
+          dt: 1606147200,
+          main: {
+            aqi: 1.0,
+          },
+          components: {
+            co: 203.609,
+            no: 0.0,
+            no2: 41.96,
+            o3: 75.102,
+            so2: 382.648,
+            pm2_5: 23.253,
+            pm10: 92.214,
+            nh3: 402.117,
+          },
+        },
+      ],
       cityList: cities,
     };
-  },
-  mounted() {
-    // this.getWeatherData();
-    // this.getAirPollutionData(50, 50);
   },
   methods: {
     getSelectedCity(city) {
@@ -133,13 +150,11 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             this.weatherData = response.data;
+            this.getAirPollutionData(response.data.coord.lat, response.data.coord.lon)
           }
         })
         .catch(function (error) {
           console.log(error);
-          alert(
-            'City Name Invaild/ Not Found.\nUse Proper City Name. Ex: new york, london '
-          );
         }).finally(() => {
           this.isVisible = false
           this.isDataLoading = false
@@ -148,12 +163,13 @@ export default {
     getAirPollutionData(lat, lon) {
       api.get(`air_pollution?lat=${lat}&lon=${lon}&APPID=${process.env.VUE_APP_KEY}`)
         .then((response) => {
-          this.weatherData.air_quality = response.data.list[0].main.aqi;
+          this.airPollution.air_quality = response.data.list[0];
         })
         .catch(function (error) {
           console.log(error);
-          alert('City Coord Invaild/ Not Found.');
-        });
+        }).finally(() => {
+          this.isDataLoading = false
+        })
     },
   },
 };
