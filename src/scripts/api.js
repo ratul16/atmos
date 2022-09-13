@@ -23,6 +23,7 @@ export default {
   execute(method, resource, data, handleLocally = false) {
     const headers = {
       'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin": "*"
     };
     api.interceptors.response.use(
       response => responseHandler(response),
