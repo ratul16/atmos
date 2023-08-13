@@ -5,15 +5,21 @@
       <div class="weather-card city winter">
         <div class="foreground">
           <div class="content">
-            <h6>Destination <i class="fas fa-city"/></h6>
-            <span>{{weatherData.name || ''}}, {{weatherData.sys.country}}</span> <br>
+            <h6>Destination <i class="fas fa-city" /></h6>
+            <span
+              >{{ weatherData.name || "" }}, {{ weatherData.sys.country }}</span
+            >
+            <br />
           </div>
           <div>
-            <h4>Feels Like {{ weatherData.main.feels_like.toFixed(1) }}&#176;</h4> 
+            <h4>
+              Feels Like {{ weatherData.main.feels_like.toFixed(1) }}&#176;
+            </h4>
             <h6>
-              Coordinates 
-              {{ weatherData.coord.lat }}&#176;, {{ weatherData.coord.lon }}&#176;
-            </h6> 
+              Coordinates
+              {{ weatherData.coord.lat }}&#176;,
+              {{ weatherData.coord.lon }}&#176;
+            </h6>
           </div>
         </div>
       </div>
@@ -22,7 +28,7 @@
           Temperature <i class="fas fa-thermometer-full" />
         </h6>
         <div class="content">
-          <span>{{ weatherData.main.temp.toFixed(1) }}&#176;</span> 
+          <span>{{ weatherData.main.temp.toFixed(1) }}&#176;</span>
         </div>
       </div>
       <div class="weather-card">
@@ -30,8 +36,8 @@
           Min/Max Temperature <i class="fas fa-thermometer-half" />
         </h6>
         <div class="content">
-          <span>{{ weatherData.main.temp_min.toFixed(1) }}&#176; | </span> 
-          <span>{{ weatherData.main.temp_max.toFixed(1) }}&#176;</span> 
+          <span>{{ weatherData.main.temp_min.toFixed(1) }}&#176; | </span>
+          <span>{{ weatherData.main.temp_max.toFixed(1) }}&#176;</span>
         </div>
       </div>
       <div class="weather-card">
@@ -41,14 +47,16 @@
             class="icon"
             :src="`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`"
           />
-          <span>{{weatherData.weather[0].main || ''}}</span>
+          <span>{{ weatherData.weather[0].main || "" }}</span>
         </div>
       </div>
       <div class="weather-card">
         <h6 class="text-muted">Wind Speed <i class="fas fa-wind" /></h6>
         <div class="content">
-          <span>{{ weatherData.wind.speed || 'N/A' }}</span>
-          <span class="small-text">km/h ({{ weatherData.wind.deg || ''}}&#176;)</span>
+          <span>{{ weatherData.wind.speed || "N/A" }}</span>
+          <span class="small-text"
+            >km/h ({{ weatherData.wind.deg || "" }}&#176;)</span
+          >
         </div>
       </div>
       <div class="weather-card">
@@ -88,7 +96,7 @@
 
 <script>
 export default {
-  name: 'TodayHighlight',
+  name: "TodayHighlight",
   props: {
     weatherData: {
       type: Object,
@@ -97,70 +105,68 @@ export default {
   },
   data() {
     return {
-      airQuality: '',
-      airQualityColor: '',
+      airQuality: "",
+      airQualityColor: "",
       airQualityInfo: {
         1: {
-          label: 'Good',
-          des: 'Air quality is satisfactory, and air pollution poses little or no risk.',
-          color: ''
+          label: "Good",
+          des: "Air quality is satisfactory, and air pollution poses little or no risk.",
+          color: "",
         },
         2: {
-          label: 'Moderate',
+          label: "Moderate",
           des: `Air quality is acceptable. However, there may be a risk for some people,
             particularly those who are unusually sensitive to air pollution.`,
-          color: ''
+          color: "",
         },
         3: {
-          label: 'Unhealthy for sensitive groups',
+          label: "Unhealthy for sensitive groups",
           des: `Members of sensitive groups may experience health effects.
             The general public is less likely to be affected.`,
-          color: ''
+          color: "",
         },
         4: {
-          label: 'Unhealthy',
+          label: "Unhealthy",
           des: `Some members of the general public may experience health effects.
             Members of sensitive groups may experience more serious health effects.`,
-          color: ''
+          color: "",
         },
         5: {
-          label: 'Very Unhealthy',
-          des: 'Health alert: The risk of health effects is increased for everyone.',
-          color: ''
+          label: "Very Unhealthy",
+          des: "Health alert: The risk of health effects is increased for everyone.",
+          color: "",
         },
         6: {
-          label: 'Hazardous',
-          des: 'Health warning of emergency conditions: everyone is more likely to be affected.',
-          color: ''
+          label: "Hazardous",
+          des: "Health warning of emergency conditions: everyone is more likely to be affected.",
+          color: "",
         },
       },
-    }
+    };
   },
   methods: {
     checkAirQuality(aqi) {
       let level;
       if (aqi < 50) {
-        level = 1
+        level = 1;
       } else if (aqi < 100) {
-        level = 2
+        level = 2;
       } else if (aqi < 150) {
-        level = 3
+        level = 3;
       } else if (aqi < 200) {
-        level = 4
+        level = 4;
       } else if (aqi < 300) {
-        level = 5
+        level = 5;
       } else {
-        level = 6
+        level = 6;
       }
-      return level
-    }
+      return level;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/_mixins.scss";
-
 .current-update {
   margin-bottom: 20px;
   .detail-cards {
@@ -212,7 +218,7 @@ export default {
   }
 }
 
-@include media-queries('desktop') {
+@include media-queries("desktop") {
   .current-update {
     .detail-cards {
       grid-template-columns: repeat(2, 1fr);
@@ -220,7 +226,7 @@ export default {
   }
 }
 
-@include media-queries('tab-sm') {
+@include media-queries("tab-sm") {
   .current-update {
     .detail-cards {
       grid-template-columns: 1fr;

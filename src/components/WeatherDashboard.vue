@@ -1,15 +1,5 @@
 <template>
   <div class="weather-dashboard container">
-    <div class="weather-bar">
-      <div class="temp-btn active">&#176;C</div>
-      <div class="temp-btn">&#176;F</div>
-      <div class="avatar">
-        <img
-          src="https://images.unsplash.com/photo-1656969630442-9db4f3dcb134?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-          alt=""
-        />
-      </div>
-    </div>
     <div class="searchbar">
       <b-input-group>
         <b-form-input
@@ -35,7 +25,9 @@
         <div class="search-card" v-for="x in cityList" :key="x.id">
           <div class="result" @click="getSelectedCity(x)">
             <div class="name">{{ x.name }}, {{ x.country }}</div>
-            <small class="text-muted">{{ x.coord.lat || '' }}, {{ x.coord.lon || '' }}</small>
+            <small class="text-muted"
+              >{{ x.coord.lat || "" }}, {{ x.coord.lon || "" }}</small
+            >
           </div>
         </div>
       </div>
@@ -50,20 +42,19 @@
         <WeeklyHighlight :coord="weatherData.coord" />
         <AirPollutionChart :airPollution="airPollution" />
       </div>
-      
     </div>
   </div>
 </template>
 
 <script>
-import cities from '@/data/city'
-import api from '@/scripts/api';
-import TodayHighlight from '@/components/TodayHighlight';
-import WeeklyHighlight from '@/components/WeeklyHighlight';
-import AirPollutionChart from '@/components/AirPollutionChart'
+import cities from "../data/city";
+import api from "../scripts/api";
+import TodayHighlight from "../components/TodayHighlight.vue";
+import WeeklyHighlight from "../components/WeeklyHighlight.vue";
+import AirPollutionChart from "../components/AirPollutionChart.vue";
 
 export default {
-  name: 'WeatherDashboard',
+  name: "WeatherDashboard",
   components: {
     TodayHighlight,
     WeeklyHighlight,
@@ -71,7 +62,7 @@ export default {
   },
   data() {
     return {
-      searchQuery: '',
+      searchQuery: "",
       isVisible: false,
       isDataLoading: false,
       weatherData: {
@@ -82,12 +73,12 @@ export default {
         weather: [
           {
             id: 721,
-            main: 'Haze',
-            description: 'haze',
-            icon: '50n',
+            main: "Haze",
+            description: "haze",
+            icon: "50n",
           },
         ],
-        base: 'stations',
+        base: "stations",
         main: {
           temp: 29.99,
           feels_like: 35.01,
@@ -108,13 +99,13 @@ export default {
         sys: {
           type: 1,
           id: 9145,
-          country: 'BD',
+          country: "BD",
           sunrise: 1659915055,
           sunset: 1659962237,
         },
         timezone: 21600,
         id: 1185241,
-        name: 'Dhaka',
+        name: "Dhaka",
         cod: 200,
       },
       airPollution: [
@@ -140,45 +131,53 @@ export default {
   },
   methods: {
     getSelectedCity(city) {
-      this.searchQuery = city ? city.name: ''
-      this.getWeatherData()
-      this.isVisible = false
+      this.searchQuery = city ? city.name : "";
+      this.getWeatherData();
+      this.isVisible = false;
     },
     getWeatherData() {
-      this.isDataLoading = true
-      api.get(`weather?q=${this.searchQuery}&APPID=${process.env.VUE_APP_KEY}&units=metric`)
+      this.isDataLoading = true;
+      api
+        .get(
+          `weather?q=${this.searchQuery}&APPID=${process.env.VUE_APP_KEY}&units=metric`
+        )
         .then((response) => {
           if (response.status === 200) {
             this.weatherData = response.data;
-            this.getAirPollutionData(response.data.coord.lat, response.data.coord.lon)
+            this.getAirPollutionData(
+              response.data.coord.lat,
+              response.data.coord.lon
+            );
           }
         })
         .catch(function (error) {
           console.log(error);
-        }).finally(() => {
-          this.isVisible = false
-          this.isDataLoading = false
         })
+        .finally(() => {
+          this.isVisible = false;
+          this.isDataLoading = false;
+        });
     },
     getAirPollutionData(lat, lon) {
-      api.get(`air_pollution?lat=${lat}&lon=${lon}&APPID=${process.env.VUE_APP_KEY}`)
+      api
+        .get(
+          `air_pollution?lat=${lat}&lon=${lon}&APPID=${process.env.VUE_APP_KEY}`
+        )
         .then((response) => {
           this.airPollution.air_quality = response.data.list[0];
         })
         .catch(function (error) {
           console.log(error);
-        }).finally(() => {
-          this.isDataLoading = false
         })
+        .finally(() => {
+          this.isDataLoading = false;
+        });
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/_mixins.scss';
-@import '@/assets/scss/main.scss';
-
 .weather-dashboard {
   background-color: $bg-variant;
   .celsius,
@@ -191,48 +190,10 @@ export default {
     }
   }
   .celsius::after {
-    content: '\00B0 C';
+    content: "\00B0 C";
   }
   .fahrenheit::after {
-    content: '\00B0 F';
-  }
-  .weather-bar {
-    background-color: $white;
-    border-radius: 5px;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 20px;
-    margin: 0 0 20px 0;
-    .temp-btn {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      background-color: $bg-variant;
-      transition: all 0.3s ease-in-out;
-      &:hover {
-        background-color: $primary;
-      }
-      &.active {
-        border: 1px solid $primary;
-      }
-    }
-    .avatar {
-      width: 35px;
-      height: 35px;
-      img {
-        width: 100%;
-        height: 100%;
-        border-radius: 5px;
-        object-fit: cover;
-        object-position: top;
-      }
-    }
+    content: "\00B0 F";
   }
   .searchbar {
     max-width: 400px;
@@ -288,7 +249,7 @@ export default {
           display: block;
         }
         &:hover {
-          background:$hover;
+          background: $hover;
         }
       }
     }

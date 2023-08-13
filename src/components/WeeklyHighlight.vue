@@ -4,12 +4,16 @@
     <div class="weekly-temps">
       <div class="temp-card" v-for="(day, index) in forecastData" :key="index">
         <span class="day font-weight-bold">
-          {{ (new Date(day.dt_txt)).toLocaleDateString('en-us', { weekday:"short"}) }}
+          {{
+            new Date(day.dt_txt).toLocaleDateString("en-us", {
+              weekday: "short",
+            })
+          }}
         </span>
         <small class="Time text-muted">
           {{
-            new Date(day.dt_txt).toLocaleTimeString('en-US', {
-              hour: 'numeric',
+            new Date(day.dt_txt).toLocaleTimeString("en-US", {
+              hour: "numeric",
               hour12: true,
             })
           }}
@@ -30,36 +34,36 @@
 </template>
 
 <script>
-import api from '@/scripts/api';
+import api from "../scripts/api";
 // import VueApexCharts from 'vue-apexcharts'
 
 export default {
-  name: 'WeeklyHighlight',
+  name: "WeeklyHighlight",
   // components: {
   //   VueApexCharts,
   // },
   props: {
     coord: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
   },
   data() {
     return {
       options: {
         xaxis: {
-            categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
-          }
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
         },
+      },
       series: [
         {
-          name: 'series-1',
-          data: [30, 40, 45, 50, 49, 60, 70, 91]
+          name: "series-1",
+          data: [30, 40, 45, 50, 49, 60, 70, 91],
         },
         {
-          name: 'series-2',
-          data: [94, 40, 95, 50, 49, 60, 70, 91]
-        }
+          name: "series-2",
+          data: [94, 40, 95, 50, 49, 60, 70, 91],
+        },
       ],
       forecastData: [
         {
@@ -78,9 +82,9 @@ export default {
           weather: [
             {
               id: 500,
-              main: 'Rain',
-              description: 'light rain',
-              icon: '10n',
+              main: "Rain",
+              description: "light rain",
+              icon: "10n",
             },
           ],
           clouds: {
@@ -94,12 +98,12 @@ export default {
           visibility: 10000,
           pop: 0.24,
           rain: {
-            '3h': 0.13,
+            "3h": 0.13,
           },
           sys: {
-            pod: 'n',
+            pod: "n",
           },
-          dt_txt: '2022-08-08 18:00:00',
+          dt_txt: "2022-08-08 18:00:00",
         },
         {
           dt: 1659992400,
@@ -117,9 +121,9 @@ export default {
           weather: [
             {
               id: 803,
-              main: 'Clouds',
-              description: 'broken clouds',
-              icon: '04d',
+              main: "Clouds",
+              description: "broken clouds",
+              icon: "04d",
             },
           ],
           clouds: {
@@ -133,9 +137,9 @@ export default {
           visibility: 10000,
           pop: 0.24,
           sys: {
-            pod: 'd',
+            pod: "d",
           },
-          dt_txt: '2022-08-08 21:00:00',
+          dt_txt: "2022-08-08 21:00:00",
         },
         {
           dt: 1660003200,
@@ -153,9 +157,9 @@ export default {
           weather: [
             {
               id: 803,
-              main: 'Clouds',
-              description: 'broken clouds',
-              icon: '04d',
+              main: "Clouds",
+              description: "broken clouds",
+              icon: "04d",
             },
           ],
           clouds: {
@@ -169,9 +173,9 @@ export default {
           visibility: 10000,
           pop: 0.2,
           sys: {
-            pod: 'd',
+            pod: "d",
           },
-          dt_txt: '2022-08-09 00:00:00',
+          dt_txt: "2022-08-09 00:00:00",
         },
         {
           dt: 1660014000,
@@ -189,9 +193,9 @@ export default {
           weather: [
             {
               id: 804,
-              main: 'Clouds',
-              description: 'overcast clouds',
-              icon: '04d',
+              main: "Clouds",
+              description: "overcast clouds",
+              icon: "04d",
             },
           ],
           clouds: {
@@ -205,9 +209,9 @@ export default {
           visibility: 10000,
           pop: 0.08,
           sys: {
-            pod: 'd',
+            pod: "d",
           },
-          dt_txt: '2022-08-09 03:00:00',
+          dt_txt: "2022-08-09 03:00:00",
         },
         {
           dt: 1660024800,
@@ -225,9 +229,9 @@ export default {
           weather: [
             {
               id: 804,
-              main: 'Clouds',
-              description: 'overcast clouds',
-              icon: '04d',
+              main: "Clouds",
+              description: "overcast clouds",
+              icon: "04d",
             },
           ],
           clouds: {
@@ -241,9 +245,9 @@ export default {
           visibility: 10000,
           pop: 0.12,
           sys: {
-            pod: 'd',
+            pod: "d",
           },
-          dt_txt: '2022-08-09 06:00:00',
+          dt_txt: "2022-08-09 06:00:00",
         },
         {
           dt: 1660035600,
@@ -261,9 +265,9 @@ export default {
           weather: [
             {
               id: 804,
-              main: 'Clouds',
-              description: 'overcast clouds',
-              icon: '04d',
+              main: "Clouds",
+              description: "overcast clouds",
+              icon: "04d",
             },
           ],
           clouds: {
@@ -277,9 +281,9 @@ export default {
           visibility: 10000,
           pop: 0.2,
           sys: {
-            pod: 'd',
+            pod: "d",
           },
-          dt_txt: '2022-08-09 09:00:00',
+          dt_txt: "2022-08-09 09:00:00",
         },
       ],
     };
@@ -289,12 +293,15 @@ export default {
   },
   methods: {
     getForecastData(lat, lon) {
-      api.get(`forecast?lat=${lat}&lon=${lon}&APPID=${process.env.VUE_APP_KEY}&units=metric`)
+      api
+        .get(
+          `forecast?lat=${lat}&lon=${lon}&APPID=${process.env.VUE_APP_KEY}&units=metric`
+        )
         .then((response) => {
           if (response.status) {
             this.forecastData = response.data.list;
           } else {
-            console.log('Something went wrong');
+            console.log("Something went wrong");
           }
         })
         .catch(function (error) {
@@ -306,8 +313,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/_mixins.scss';
-
 .weekly-update {
   margin-bottom: 20px;
   .weekly-temps {

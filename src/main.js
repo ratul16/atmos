@@ -1,21 +1,21 @@
-import Vue from "vue";
-import App from "./App.vue";
-import "./registerServiceWorker";
-import router from "./router";
+import Vue from 'vue';
+import { createPinia, PiniaVuePlugin } from 'pinia';
+import { BootstrapVue } from 'bootstrap-vue';
 
-import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import App from './App.vue';
+import router from './router';
 
-require('@/assets/scss/main.scss');
+// Css Import
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+// import './assets/main.css';
 
+// Plugin Use
 Vue.use(BootstrapVue);
-Vue.use(BootstrapVueIcons);
-
-Vue.config.productionTip = false;
+Vue.use(PiniaVuePlugin);
 
 new Vue({
   router,
-  render: (h) => h(App),
-}).$mount("#app");
+  pinia: createPinia(),
+  render: (h) => h(App)
+}).$mount('#app');

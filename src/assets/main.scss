@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Roboto+Slab&display=swap");
-
-@import "@/assets/scss/_mixins.scss";
+@import "./mixins.scss";
 
 $bg-variant: #f6f5f9;
 $hover: #def1fd;
@@ -9,9 +8,75 @@ $secondary: #40b3ff;
 $black: #333;
 $white: #fff;
 
-#app {
-  font-family: "Roboto Slab", serif;
+/* Scroll bar stylings */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+  background-color: $secondary;
+  border-radius: 10px;
+}
+
+html,
+body {
   background-color: $bg-variant;
+  // font-size: 20px;
+}
+
+#app {
+  background-color: $bg-variant;
+  font-family: 'Roboto Slab';
+}
+
+.weather-bar {
+  background-color: $white;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  margin: 0 0 20px 0;
+
+  .temp-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: $bg-variant;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $primary;
+    }
+
+    &.active {
+      border: 1px solid $primary;
+    }
+  }
+
+  .avatar {
+    width: 35px;
+    height: 35px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+      object-fit: cover;
+      object-position: top;
+    }
+  }
 }
 
 .fade-enter-active,

@@ -1,12 +1,12 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.VUE_APP_BASE_URL,
+  baseURL: 'https://api.openweathermap.org/data/2.5/',
 });
 
 const responseHandler = (response) => {
   if (response.status === 401) {
-    window.alert('Unauthorized Search')
+    window.alert('Unauthorized Search');
   }
   return response;
 };
@@ -14,7 +14,7 @@ const responseHandler = (response) => {
 const errorHandler = (error, handleLocally) => {
   if (error.response.status === 401) {
     if (!handleLocally) {
-      window.alert('Unauthorized Search')
+      window.alert('Unauthorized Search');
     }
   }
   return Promise.reject(error);
@@ -39,4 +39,4 @@ export default {
   get(endpoint, handleError = false) {
     return this.execute('get', endpoint, handleError);
   },
-}
+};
