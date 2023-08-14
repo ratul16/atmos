@@ -5,39 +5,39 @@
         <b-form-input
           v-model="searchQuery"
           placeholder="Enter city names..."
-          @focus="isVisible = !isVisible"
+          @input="handleSearchQuery"
         />
         <template #append>
-          <div class="location" @click="getWeatherData">
+          <div class="location">
             <i class="fas fa-search" />
           </div>
         </template>
       </b-input-group>
-      <div class="search-results" v-if="isVisible">
-        <!-- <div class="search-card">
-          <div class="font-weight-bold">
-            Please enter valid address
+      <div
+        class="search-results"
+        :style="filteredResults.length ? 'max-height:250px' : 'height:auto'"
+        v-if="isVisible"
+      >
+        <div v-if="filteredResults.length">
+          <div class="search-card" v-for="x in filteredResults" :key="x.id">
+            <div class="result" @click="getWeatherData(x.name)">
+              <div class="name">{{ x.name }}, {{ x.country }}</div>
+              <small class="text-muted"
+                >{{ x.coord.lat || "" }}, {{ x.coord.lon || "" }}</small
+              >
+            </div>
           </div>
         </div>
-        <div class="search-card">
+        <div class="search-card" v-else>
           <div class="font-weight-bold">No information found</div>
-        </div> -->
-        <div class="search-card" v-for="x in cityList" :key="x.id">
-          <div class="result" @click="getSelectedCity(x)">
-            <div class="name">{{ x.name }}, {{ x.country }}</div>
-            <small class="text-muted"
-              >{{ x.coord.lat || "" }}, {{ x.coord.lon || "" }}</small
-            >
-          </div>
         </div>
       </div>
     </div>
     <div class="weather-details">
-      <!-- {{getFilterCityList}} -->
       <div class="loading" v-if="isDataLoading">
         <h4>Data loading</h4>
       </div>
-      <div class="details-body" v-else>
+      <div class="details-body" v-if="Object.keys(weatherData).length">
         <TodayHighlight :weatherData="weatherData" />
         <WeeklyHighlight :coord="weatherData.coord" />
         <AirPollutionChart :airPollution="airPollution" />
@@ -52,9 +52,17 @@ import api from "../scripts/api";
 import TodayHighlight from "../components/TodayHighlight.vue";
 import WeeklyHighlight from "../components/WeeklyHighlight.vue";
 import AirPollutionChart from "../components/AirPollutionChart.vue";
-
+import { useWeatherStore } from "../stores/weather";
+import utils from "../mixins/utils";
 export default {
   name: "WeatherDashboard",
+  setup() {
+    const store = useWeatherStore();
+    return {
+      store,
+    };
+  },
+  mixins: [utils],
   components: {
     TodayHighlight,
     WeeklyHighlight,
@@ -65,49 +73,7 @@ export default {
       searchQuery: "",
       isVisible: false,
       isDataLoading: false,
-      weatherData: {
-        coord: {
-          lon: 90.4074,
-          lat: 23.7104,
-        },
-        weather: [
-          {
-            id: 721,
-            main: "Haze",
-            description: "haze",
-            icon: "50n",
-          },
-        ],
-        base: "stations",
-        main: {
-          temp: 29.99,
-          feels_like: 35.01,
-          temp_min: 29.99,
-          temp_max: 29.99,
-          pressure: 1000,
-          humidity: 70,
-        },
-        visibility: 4000,
-        wind: {
-          speed: 4.12,
-          deg: 150,
-        },
-        clouds: {
-          all: 40,
-        },
-        dt: 1659973579,
-        sys: {
-          type: 1,
-          id: 9145,
-          country: "BD",
-          sunrise: 1659915055,
-          sunset: 1659962237,
-        },
-        timezone: 21600,
-        id: 1185241,
-        name: "Dhaka",
-        cod: 200,
-      },
+      weatherData: this.store.sampleWeather,
       airPollution: [
         {
           dt: 1606147200,
@@ -127,19 +93,33 @@ export default {
         },
       ],
       cityList: cities,
+      filteredResults: [],
     };
   },
+  mounted() {
+    // if (this.store.location) {
+    //   this.getWeatherData(this.store.location);
+    // }
+  },
   methods: {
-    getSelectedCity(city) {
-      this.searchQuery = city ? city.name : "";
-      this.getWeatherData();
-      this.isVisible = false;
+    handleSearchQuery() {
+      this.debounce(this.getFilterCity, 300);
+      this.isVisible = true;
     },
-    getWeatherData() {
+    getFilterCity() {
+      // Filter the items array based on the search text
+      if (this.searchQuery) {
+        this.filteredResults = this.cityList.filter((item) =>
+          item.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      }
+    },
+    getWeatherData(search) {
       this.isDataLoading = true;
+      this.isVisible = false;
       api
         .get(
-          `weather?q=${this.searchQuery}&APPID=${
+          `weather?q=${search}&APPID=${
             import.meta.env.VITE_APP_KEY
           }&units=metric`
         )
@@ -156,7 +136,6 @@ export default {
           console.log(error);
         })
         .finally(() => {
-          this.isVisible = false;
           this.isDataLoading = false;
         });
     },
@@ -168,7 +147,7 @@ export default {
           }`
         )
         .then((response) => {
-          this.airPollution.air_quality = response.data.list[0];
+          this.airPollution = response.data.list;
         })
         .catch(function (error) {
           console.log(error);
@@ -239,7 +218,6 @@ export default {
       position: absolute;
       overflow-y: auto;
       width: 100%;
-      height: 300px;
       left: 0;
       top: 60px;
       background-color: $white;
