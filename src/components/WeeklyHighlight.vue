@@ -27,21 +27,27 @@
         </div>
       </div>
     </div>
-    <!-- <div class="weekly-graph">
-      <VueApexCharts type="line" :options="options" :series="series" />
-    </div> -->
+    <div class="weekly-graph">
+      <VueApexCharts
+        class="chart"
+        type="line"
+        :options="options"
+        :series="series"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import api from "../scripts/api";
-// import VueApexCharts from 'vue-apexcharts'
+import weekly from "../data/weekly.json";
+import VueApexCharts from "vue-apexcharts";
 
 export default {
   name: "WeeklyHighlight",
-  // components: {
-  //   VueApexCharts,
-  // },
+  components: {
+    VueApexCharts,
+  },
   props: {
     coord: {
       type: Object,
@@ -51,244 +57,46 @@ export default {
   data() {
     return {
       options: {
+        chart: {
+          id: "weekly",
+        },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
+          categories: [
+            "12 Aug 2023",
+            "13 Aug 2023",
+            "14 Aug 2023",
+            "15 Aug 2023",
+            "16 Aug 2023",
+            "17 Aug 2023",
+            "18 Aug 2023",
+          ],
         },
       },
       series: [
         {
-          name: "series-1",
+          name: "Temperature",
           data: [30, 40, 45, 50, 49, 60, 70, 91],
         },
         {
-          name: "series-2",
+          name: "Wind Speed",
+          data: [56, 74, 67, 24, 17, 39, 33, 71],
+        },
+        {
+          name: "Humidity",
           data: [94, 40, 95, 50, 49, 60, 70, 91],
         },
       ],
-      forecastData: [
-        {
-          dt: 1659981600,
-          main: {
-            temp: 24.6,
-            feels_like: 25.52,
-            temp_min: 24.56,
-            temp_max: 24.6,
-            pressure: 1011,
-            sea_level: 1011,
-            grnd_level: 985,
-            humidity: 92,
-            temp_kf: 0.04,
-          },
-          weather: [
-            {
-              id: 500,
-              main: "Rain",
-              description: "light rain",
-              icon: "10n",
-            },
-          ],
-          clouds: {
-            all: 100,
-          },
-          wind: {
-            speed: 3.41,
-            deg: 246,
-            gust: 10.23,
-          },
-          visibility: 10000,
-          pop: 0.24,
-          rain: {
-            "3h": 0.13,
-          },
-          sys: {
-            pod: "n",
-          },
-          dt_txt: "2022-08-08 18:00:00",
-        },
-        {
-          dt: 1659992400,
-          main: {
-            temp: 24.85,
-            feels_like: 25.77,
-            temp_min: 24.85,
-            temp_max: 24.96,
-            pressure: 1012,
-            sea_level: 1012,
-            grnd_level: 985,
-            humidity: 91,
-            temp_kf: -0.11,
-          },
-          weather: [
-            {
-              id: 803,
-              main: "Clouds",
-              description: "broken clouds",
-              icon: "04d",
-            },
-          ],
-          clouds: {
-            all: 83,
-          },
-          wind: {
-            speed: 3.21,
-            deg: 244,
-            gust: 9.81,
-          },
-          visibility: 10000,
-          pop: 0.24,
-          sys: {
-            pod: "d",
-          },
-          dt_txt: "2022-08-08 21:00:00",
-        },
-        {
-          dt: 1660003200,
-          main: {
-            temp: 28.72,
-            feels_like: 32.13,
-            temp_min: 28.72,
-            temp_max: 28.72,
-            pressure: 1012,
-            sea_level: 1012,
-            grnd_level: 985,
-            humidity: 70,
-            temp_kf: 0,
-          },
-          weather: [
-            {
-              id: 803,
-              main: "Clouds",
-              description: "broken clouds",
-              icon: "04d",
-            },
-          ],
-          clouds: {
-            all: 72,
-          },
-          wind: {
-            speed: 5.55,
-            deg: 245,
-            gust: 10.32,
-          },
-          visibility: 10000,
-          pop: 0.2,
-          sys: {
-            pod: "d",
-          },
-          dt_txt: "2022-08-09 00:00:00",
-        },
-        {
-          dt: 1660014000,
-          main: {
-            temp: 30.78,
-            feels_like: 34.38,
-            temp_min: 30.78,
-            temp_max: 30.78,
-            pressure: 1011,
-            sea_level: 1011,
-            grnd_level: 985,
-            humidity: 60,
-            temp_kf: 0,
-          },
-          weather: [
-            {
-              id: 804,
-              main: "Clouds",
-              description: "overcast clouds",
-              icon: "04d",
-            },
-          ],
-          clouds: {
-            all: 89,
-          },
-          wind: {
-            speed: 6.05,
-            deg: 245,
-            gust: 9.9,
-          },
-          visibility: 10000,
-          pop: 0.08,
-          sys: {
-            pod: "d",
-          },
-          dt_txt: "2022-08-09 03:00:00",
-        },
-        {
-          dt: 1660024800,
-          main: {
-            temp: 30.36,
-            feels_like: 33.98,
-            temp_min: 30.36,
-            temp_max: 30.36,
-            pressure: 1011,
-            sea_level: 1011,
-            grnd_level: 984,
-            humidity: 62,
-            temp_kf: 0,
-          },
-          weather: [
-            {
-              id: 804,
-              main: "Clouds",
-              description: "overcast clouds",
-              icon: "04d",
-            },
-          ],
-          clouds: {
-            all: 92,
-          },
-          wind: {
-            speed: 6.28,
-            deg: 238,
-            gust: 10.31,
-          },
-          visibility: 10000,
-          pop: 0.12,
-          sys: {
-            pod: "d",
-          },
-          dt_txt: "2022-08-09 06:00:00",
-        },
-        {
-          dt: 1660035600,
-          main: {
-            temp: 26.8,
-            feels_like: 29.39,
-            temp_min: 26.8,
-            temp_max: 26.8,
-            pressure: 1011,
-            sea_level: 1011,
-            grnd_level: 984,
-            humidity: 81,
-            temp_kf: 0,
-          },
-          weather: [
-            {
-              id: 804,
-              main: "Clouds",
-              description: "overcast clouds",
-              icon: "04d",
-            },
-          ],
-          clouds: {
-            all: 100,
-          },
-          wind: {
-            speed: 5.15,
-            deg: 234,
-            gust: 11.22,
-          },
-          visibility: 10000,
-          pop: 0.2,
-          sys: {
-            pod: "d",
-          },
-          dt_txt: "2022-08-09 09:00:00",
-        },
-      ],
+      forecastData: weekly,
+      formattedData: {
+        temp: [],
+        wind_speed: [],
+        humidity: [],
+        timestamp: [],
+      },
     };
   },
   mounted() {
+    this.formatData();
     // this.getForecastData(this.coord.lat, this.coord.lon);
   },
   methods: {
@@ -310,6 +118,47 @@ export default {
           console.log(error);
         });
     },
+    formatDate(timestamp) {
+      const date = new Date(timestamp * 1000); // Convert to milliseconds
+      const day = date.getDate();
+      const month = date.toLocaleString("default", { month: "short" }); // Get short month name
+      const time = date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      return `${day} ${month}, ${time}`;
+    },
+    formatData() {
+      var data = this.forecastData;
+      data.forEach((entry) => {
+        const temp = entry.main.temp;
+        const windSpeed = entry.wind.speed;
+        const humidity = entry.main.humidity;
+        const timestamp = entry.dt;
+
+        this.formattedData.temp.push(temp);
+        this.formattedData.wind_speed.push(windSpeed);
+        this.formattedData.humidity.push(humidity);
+        this.formattedData.timestamp.push(this.formatDate(timestamp));
+      });
+    },
+    generateChart() {
+      this.options.xaxis.categories = this.formattedData.timestamp;
+      this.series = [
+        {
+          name: "Temperature",
+          data: this.formattedData.temp,
+        },
+        {
+          name: "Wind Speed",
+          data: this.formattedData.wind_speed,
+        },
+        {
+          name: "Humidity",
+          data: this.formattedData.humidity,
+        },
+      ];
+    },
   },
 };
 </script>
@@ -329,11 +178,20 @@ export default {
       flex-direction: column;
       text-align: center;
       padding: 20px;
+      margin-bottom: 10px;
       background-color: white;
       .icon {
         margin: 0 auto;
         width: 50px;
       }
+    }
+  }
+  .weekly-graph {
+    background-color: $white;
+    // width: 100%;
+    // height: 100px;
+    .chart {
+      max-height: 200px !important;
     }
   }
 }
