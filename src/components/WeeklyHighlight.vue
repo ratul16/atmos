@@ -295,7 +295,9 @@ export default {
     getForecastData(lat, lon) {
       api
         .get(
-          `forecast?lat=${lat}&lon=${lon}&APPID=${process.env.VUE_APP_KEY}&units=metric`
+          `forecast?lat=${lat}&lon=${lon}&APPID=${
+            import.meta.env.VITE_APP_KEY
+          }&units=metric`
         )
         .then((response) => {
           if (response.status) {

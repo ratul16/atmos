@@ -139,7 +139,9 @@ export default {
       this.isDataLoading = true;
       api
         .get(
-          `weather?q=${this.searchQuery}&APPID=${process.env.VUE_APP_KEY}&units=metric`
+          `weather?q=${this.searchQuery}&APPID=${
+            import.meta.env.VITE_APP_KEY
+          }&units=metric`
         )
         .then((response) => {
           if (response.status === 200) {
@@ -161,7 +163,9 @@ export default {
     getAirPollutionData(lat, lon) {
       api
         .get(
-          `air_pollution?lat=${lat}&lon=${lon}&APPID=${process.env.VUE_APP_KEY}`
+          `air_pollution?lat=${lat}&lon=${lon}&APPID=${
+            import.meta.env.VITE_APP_KEY
+          }`
         )
         .then((response) => {
           this.airPollution.air_quality = response.data.list[0];
@@ -180,6 +184,7 @@ export default {
 <style lang="scss" scoped>
 .weather-dashboard {
   background-color: $bg-variant;
+  padding-top: 80px;
   .celsius,
   .fahrenheit {
     position: relative;

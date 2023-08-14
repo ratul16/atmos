@@ -244,14 +244,14 @@ export default {
     },
   }),
   mounted() {
-    console.log(process.env.VUE_APP_KEY);
+    console.log(import.meta.env.VITE_APP_KEY);
   },
   methods: {
     async searchWeather(e) {
       e.preventDefault();
       const cityValid = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/.test(this.search);
       cityValid ? false : alert("Wrong City Name");
-      let KEY = process.env.VUE_APP_KEY;
+      let KEY = import.meta.env.VITE_APP_KEY;
       const API = `https://api.openweathermap.org/data/2.5/weather?q=${this.search}&APPID=${KEY}&units=metric`;
 
       await axios
