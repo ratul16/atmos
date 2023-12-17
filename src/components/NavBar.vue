@@ -17,10 +17,20 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <div class="temp-btn active">&#176;C</div>
+          <div
+            class="temp-btn"
+            :class="this.store.units === 'metric' ? 'active' : ''"
+          >
+            &#176;C
+          </div>
         </li>
         <li class="nav-item">
-          <div class="temp-btn">&#176;F</div>
+          <div
+            class="temp-btn"
+            :class="this.store.units === 'imperial' ? 'active' : ''"
+          >
+            &#176;F
+          </div>
         </li>
         <li class="nav-item">
           <div class="avatar">
@@ -36,8 +46,16 @@
 </template>
 
 <script>
+import { useWeatherStore } from "../stores/weather";
+
 export default {
   name: "NavBar",
+  setup() {
+    const store = useWeatherStore();
+    return {
+      store,
+    };
+  },
 };
 </script>
 

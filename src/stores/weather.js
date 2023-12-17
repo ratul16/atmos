@@ -4,6 +4,7 @@ export const useWeatherStore = defineStore({
   id: 'weather',
   state: () => ({
     location: "Birmingham",
+    units: 'metric',
     sampleWeather: {
       coord: {
         lon: 90.4074,
@@ -64,7 +65,7 @@ export const useWeatherStore = defineStore({
           nh3: 402.117,
         },
       },
-    ]
+    ],
   }),
   getters: {
 

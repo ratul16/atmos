@@ -34,8 +34,12 @@
       </div>
     </div>
     <div class="weather-details">
-      <div class="loading" v-if="isDataLoading">
-        <h4>Data loading</h4>
+      <div
+        class="loading d-flex justify-content-between align-items-center"
+        v-if="isDataLoading"
+      >
+        <h4>Fetching Weather Data...</h4>
+        <b-spinner variant="secondary" label="Loading..."></b-spinner>
       </div>
       <div class="details-body" v-if="Object.keys(weatherData).length">
         <TodayHighlight :weatherData="weatherData" />
@@ -100,6 +104,7 @@ export default {
     // if (this.store.location) {
     //   this.getWeatherData(this.store.location);
     // }
+    console.log(import.meta.env.VITE_APP_KEY);
   },
   methods: {
     handleSearchQuery() {
@@ -117,13 +122,15 @@ export default {
     getWeatherData(search) {
       this.isDataLoading = true;
       this.isVisible = false;
+      console.log(search);
       api
         .get(
-          `weather?q=${search}&APPID=${
-            import.meta.env.VITE_APP_KEY
-          }&units=metric`
+          `weather?q=${search}&APPID=${import.meta.env.VITE_APP_KEY}&units=${
+            this.store.units
+          }`
         )
         .then((response) => {
+          console.log(response.data);
           if (response.status === 200) {
             this.weatherData = response.data;
             this.getAirPollutionData(
