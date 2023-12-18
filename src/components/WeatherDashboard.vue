@@ -105,12 +105,12 @@ export default {
     getWeatherData(search) {
       this.isDataLoading = true;
       this.isVisible = false;
-      console.log(search);
+      console.log(search.toLowerCase());
       api
         .get(
-          `weather?q=${search}&APPID=${import.meta.env.VITE_APP_KEY}&units=${
-            this.store.units
-          }`
+          `weather?q=${search.toLowerCase()}&APPID=${
+            import.meta.env.VITE_APP_KEY
+          }&units=${this.store.units}`
         )
         .then((response) => {
           if (response.status === 200) {
