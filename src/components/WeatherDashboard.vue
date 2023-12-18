@@ -125,9 +125,9 @@ export default {
       console.log(search);
       api
         .get(
-          `http://api.openweathermap.org/data/2.5/weather?q=${search}&APPID=${
-            import.meta.env.VITE_APP_KEY
-          }&units=${this.store.units}`
+          `weather?q=${search}&APPID=${import.meta.env.VITE_APP_KEY}&units=${
+            this.store.units
+          }`
         )
         .then((response) => {
           console.log(response.data);
