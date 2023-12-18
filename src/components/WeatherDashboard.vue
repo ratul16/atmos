@@ -43,7 +43,10 @@
         <h4>Fetching Weather Data...</h4>
         <b-spinner variant="secondary" label="Loading..."></b-spinner>
       </div>
-      <div class="details-body" v-if="Object.keys(weatherData).length">
+      <div
+        class="details-body"
+        v-if="Object.keys(weatherData).length && !isDataLoading"
+      >
         <TodayHighlight :weatherData="weatherData" />
         <hr />
         <WeeklyHighlight :coord="weatherData.coord" />
