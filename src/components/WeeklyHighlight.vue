@@ -130,10 +130,10 @@ export default {
     };
   },
   mounted() {
-    this.groupWeatherByDay(this.forecastData);
-    // if (this.coord && Object.keys(this.coord).length) {
-    //   this.getForecastData(this.coord.lat, this.coord.lon);
-    // }
+    // this.groupWeatherByDay(this.forecastData);
+    if (this.coord && Object.keys(this.coord).length) {
+      this.getForecastData(this.coord.lat, this.coord.lon);
+    }
   },
   methods: {
     getForecastData(lat, lon) {
