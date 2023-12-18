@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/',
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
 });
 
 const responseHandler = (response) => {

@@ -44,7 +44,7 @@
       <div class="details-body" v-if="Object.keys(weatherData).length">
         <TodayHighlight :weatherData="weatherData" />
         <WeeklyHighlight :coord="weatherData.coord" />
-        <AirPollutionChart :airPollution="airPollution" />
+        <AirPollutionChart :coord="weatherData.coord" />
       </div>
     </div>
   </div>
@@ -77,25 +77,8 @@ export default {
       searchQuery: "",
       isVisible: false,
       isDataLoading: false,
-      weatherData: this.store.sampleWeather,
-      airPollution: [
-        {
-          dt: 1606147200,
-          main: {
-            aqi: 1.0,
-          },
-          components: {
-            co: 203.609,
-            no: 0.0,
-            no2: 41.96,
-            o3: 75.102,
-            so2: 382.648,
-            pm2_5: 23.253,
-            pm10: 92.214,
-            nh3: 402.117,
-          },
-        },
-      ],
+      weatherData: {},
+      airPollution: [],
       cityList: cities,
       filteredResults: [],
     };
@@ -130,31 +113,9 @@ export default {
           }`
         )
         .then((response) => {
-          console.log(response.data);
           if (response.status === 200) {
             this.weatherData = response.data;
-            this.getAirPollutionData(
-              response.data.coord.lat,
-              response.data.coord.lon
-            );
           }
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(() => {
-          this.isDataLoading = false;
-        });
-    },
-    getAirPollutionData(lat, lon) {
-      api
-        .get(
-          `air_pollution?lat=${lat}&lon=${lon}&APPID=${
-            import.meta.env.VITE_APP_KEY
-          }`
-        )
-        .then((response) => {
-          this.airPollution = response.data.list;
         })
         .catch(function (error) {
           console.log(error);
@@ -169,6 +130,7 @@ export default {
 
 <style lang="scss" scoped>
 .weather-dashboard {
+  min-height: 100%;
   background-color: $bg-variant;
   padding-top: 80px;
   .celsius,

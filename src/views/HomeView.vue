@@ -15,7 +15,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h2 {
-  color: red;
+main {
+  min-height: 100vh;
+  background-color: $bg-variant;
 }
 </style>

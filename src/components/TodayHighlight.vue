@@ -1,7 +1,7 @@
 <template>
   <div class="current-update">
     <h4 class="mb-4 font-weight-bold">Today's Highlights</h4>
-    <div class="detail-cards">
+    <div class="detail-cards" v-if="Object.keys(weatherData).length">
       <div class="weather-card city winter">
         <div class="foreground">
           <div class="content">

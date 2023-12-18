@@ -2,11 +2,11 @@
   <div class="air-pollution">
     <div class="mb-4">
       <h4 class="font-weight-bold">Air Pollution Highlights</h4>
-      <small class="text-muted"
+      <!-- <small class="text-muted"
         >This data is simulated for testing purpose</small
-      >
+      > -->
     </div>
-    <div class="pollution-index" v-if="airPollution">
+    <div class="pollution-index" v-if="airPollution.length">
       <div
         class="info-card quality-level"
         :style="`--bg-color:${airQualityIndex[airPollution[0].main.aqi].color}`"
@@ -99,15 +99,45 @@
 
 <script>
 import compoundQuality from "../mixins/compoundQuality";
+import api from "../scripts/api";
 
 export default {
   name: "AirPollutionChart",
   props: {
-    airPollution: {
-      type: Array,
+    coord: {
+      type: Object,
     },
   },
   mixins: [compoundQuality],
+  data() {
+    return {
+      airPollution: [],
+    };
+  },
+  mounted() {
+    if (this.coord && Object.keys(this.coord).length) {
+      this.getAirPollutionData(this.coord.lat, this.coord.lon);
+    }
+  },
+  methods: {
+    getAirPollutionData(lat, lon) {
+      api
+        .get(
+          `air_pollution?lat=${lat}&lon=${lon}&APPID=${
+            import.meta.env.VITE_APP_KEY
+          }`
+        )
+        .then((response) => {
+          this.airPollution = response.data.list;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(() => {
+          this.isDataLoading = false;
+        });
+    },
+  },
 };
 </script>
 

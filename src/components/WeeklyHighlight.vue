@@ -1,59 +1,61 @@
 <template>
   <div class="weekly-update">
     <h4 class="mb-4 font-weight-bold">Weekly Highlights</h4>
-    <div
+    <!-- <div
       class="loading d-flex justify-content-between align-items-center"
       v-if="isLoading"
     >
       <h4>Fetching Weather Data...</h4>
       <b-spinner variant="secondary" label="Loading..."></b-spinner>
-    </div>
-    <b-tabs fill justified v-else>
-      <b-tab
-        v-for="(day, index) in Object.keys(weeklyData)"
-        :key="index"
-        :title="
-          new Date(day).toLocaleDateString('en-us', {
-            weekday: 'long',
-          })
-        "
-      >
-        <div class="weekly-temps">
-          <div
-            class="temp-card"
-            v-for="(data, index) in weeklyData[day]"
-            :key="index"
-          >
-            <!-- <span class="day font-weight-bold">
-              {{
-                new Date(data.dt_txt).toLocaleDateString("en-us", {
-                  weekday: "short",
-                })
-              }}
-            </span> -->
-            <div class="temp">
-              <span>{{ data.main.temp }}&#176;</span>
-            </div>
+    </div> -->
+    <div v-if="Object.keys(weeklyData).length">
+      <b-tabs fill justified>
+        <b-tab
+          v-for="(day, index) in Object.keys(weeklyData)"
+          :key="index"
+          :title="
+            new Date(day).toLocaleDateString('en-us', {
+              weekday: 'long',
+            })
+          "
+        >
+          <div class="weekly-temps">
+            <div
+              class="temp-card"
+              v-for="(data, index) in weeklyData[day]"
+              :key="index"
+            >
+              <!-- <span class="day font-weight-bold">
+                {{
+                  new Date(data.dt_txt).toLocaleDateString("en-us", {
+                    weekday: "short",
+                  })
+                }}
+              </span> -->
+              <div class="temp">
+                <span>{{ data.main.temp }}&#176;</span>
+              </div>
 
-            <b-img-lazy
-              class="icon"
-              :src="`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`"
-            />
-            <small class="text-muted text-capitalize">{{
-              data.weather[0].description
-            }}</small>
-            <span class="time font-weight-bold">
-              {{
-                new Date(data.dt_txt).toLocaleTimeString("en-US", {
-                  hour: "numeric",
-                  hour12: true,
-                })
-              }}
-            </span>
+              <b-img-lazy
+                class="icon"
+                :src="`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`"
+              />
+              <small class="text-muted text-capitalize">{{
+                data.weather[0].description
+              }}</small>
+              <span class="time font-weight-bold">
+                {{
+                  new Date(data.dt_txt).toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    hour12: true,
+                  })
+                }}
+              </span>
+            </div>
           </div>
-        </div>
-      </b-tab>
-    </b-tabs>
+        </b-tab>
+      </b-tabs>
+    </div>
     <!-- {{ Object.keys(weeklyData) }} -->
     <!-- <div class="weekly-graph">
       <VueApexCharts
@@ -126,9 +128,9 @@ export default {
     };
   },
   mounted() {
-    // this.getForecastData(this.coord.lat, this.coord.lon);
-    // this.formatData();
-    this.groupWeatherByDay(this.forecastData);
+    if (this.coord && Object.keys(this.coord).length) {
+      this.getForecastData(this.coord.lat, this.coord.lon);
+    }
   },
   methods: {
     getForecastData(lat, lon) {
