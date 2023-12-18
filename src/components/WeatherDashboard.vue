@@ -9,7 +9,7 @@
         />
         <template #append>
           <div class="location">
-            <i class="fas fa-search" />
+            <i class="fas fa-search" @click="getWeatherData(searchQuery)" />
           </div>
         </template>
       </b-input-group>
@@ -29,7 +29,9 @@
           </div>
         </div>
         <div class="search-card" v-else>
-          <div class="font-weight-bold">No information found</div>
+          <div class="font-weight-bold text-muted">
+            Place not in list, search manually
+          </div>
         </div>
       </div>
     </div>
@@ -43,7 +45,9 @@
       </div>
       <div class="details-body" v-if="Object.keys(weatherData).length">
         <TodayHighlight :weatherData="weatherData" />
+        <hr />
         <WeeklyHighlight :coord="weatherData.coord" />
+        <hr />
         <AirPollutionChart :coord="weatherData.coord" />
       </div>
     </div>
@@ -84,10 +88,9 @@ export default {
     };
   },
   mounted() {
-    // if (this.store.location) {
-    //   this.getWeatherData(this.store.location);
-    // }
-    // console.log(import.meta.env.VITE_APP_KEY);
+    if (this.store.location) {
+      this.getWeatherData(this.store.location);
+    }
   },
   methods: {
     handleSearchQuery() {
@@ -105,7 +108,6 @@ export default {
     getWeatherData(search) {
       this.isDataLoading = true;
       this.isVisible = false;
-      console.log(search.toLowerCase());
       api
         .get(
           `weather?q=${search.toLowerCase()}&APPID=${

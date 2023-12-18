@@ -6,7 +6,7 @@
         <img src="@/assets/logo.png" alt="" />
       </a>
       <ul class="nav-links ms-auto text-capitalize">
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <router-link :to="{ name: 'home' }" class="nav-link">
             Dashboard
           </router-link>
@@ -15,7 +15,7 @@
           <router-link :to="{ name: 'about' }" class="nav-link">
             About
           </router-link>
-        </li>
+        </li> -->
         <li class="nav-item">
           <div
             class="temp-btn"

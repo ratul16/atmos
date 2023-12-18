@@ -3,8 +3,13 @@ import { defineStore } from 'pinia';
 export const useWeatherStore = defineStore({
   id: 'weather',
   state: () => ({
-    location: "Birmingham",
+    location: "london",
     units: 'metric',
+    imgList: {
+      cold: "",
+      warm: "",
+      hot: ""
+    },
     sampleWeather: {
       coord: {
         lon: 90.4074,

@@ -2,7 +2,10 @@
   <div class="current-update">
     <h4 class="mb-4 font-weight-bold">Today's Highlights</h4>
     <div class="detail-cards" v-if="Object.keys(weatherData).length">
-      <div class="weather-card city winter">
+      <div
+        class="weather-card city"
+        :class="weatherData.main.feels_like >= 10 ? 'summer' : 'winter'"
+      >
         <div class="foreground">
           <div class="content">
             <h6>Destination <i class="fas fa-city" /></h6>
@@ -177,7 +180,13 @@ export default {
       // min-height: 150px;
       border-radius: 5px;
       padding: 20px;
-      background-color: white;
+      background-color: $white;
+      border: 1px solid $white;
+      transition: 0.3s all ease-out;
+
+      &:hover {
+        border-color: $secondary;
+      }
       .content {
         span {
           font-size: 40px;
@@ -208,10 +217,10 @@ export default {
           background-color: rgba(59, 59, 59, 0.4);
         }
         &.winter {
-          background-image: url("https://images.unsplash.com/photo-1459695452562-46cc57bef5f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+          background-image: url("https://source.unsplash.com/snowy-mountain-surrounded-with-trees-xAgvgQpYsf4/");
         }
         &.summer {
-          background-image: url("https://images.unsplash.com/photo-1529923123842-3310dfdc0b10?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80");
+          background-image: url("https://source.unsplash.com/scenery-of-grass-and-trees-ocwmWiNAWGs");
         }
       }
     }

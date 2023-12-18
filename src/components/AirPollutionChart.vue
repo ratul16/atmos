@@ -2,9 +2,6 @@
   <div class="air-pollution">
     <div class="mb-4">
       <h4 class="font-weight-bold">Air Pollution Highlights</h4>
-      <!-- <small class="text-muted"
-        >This data is simulated for testing purpose</small
-      > -->
     </div>
     <div class="pollution-index" v-if="airPollution.length">
       <div

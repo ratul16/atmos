@@ -9,7 +9,7 @@
       <b-spinner variant="secondary" label="Loading..."></b-spinner>
     </div> -->
     <div v-if="Object.keys(weeklyData).length">
-      <b-tabs fill justified>
+      <b-tabs fill justified class="weekly-tab">
         <b-tab
           v-for="(day, index) in Object.keys(weeklyData)"
           :key="index"
@@ -40,17 +40,19 @@
                 class="icon"
                 :src="`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`"
               />
-              <small class="text-muted text-capitalize">{{
-                data.weather[0].description
-              }}</small>
-              <span class="time font-weight-bold">
-                {{
-                  new Date(data.dt_txt).toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    hour12: true,
-                  })
-                }}
-              </span>
+              <div class="footer">
+                <small class="text-muted text-capitalize">{{
+                  data.weather[0].description
+                }}</small>
+                <span class="time font-weight-bold">
+                  {{
+                    new Date(data.dt_txt).toLocaleTimeString("en-US", {
+                      hour: "numeric",
+                      hour12: true,
+                    })
+                  }}
+                </span>
+              </div>
             </div>
           </div>
         </b-tab>
@@ -128,9 +130,10 @@ export default {
     };
   },
   mounted() {
-    if (this.coord && Object.keys(this.coord).length) {
-      this.getForecastData(this.coord.lat, this.coord.lon);
-    }
+    this.groupWeatherByDay(this.forecastData);
+    // if (this.coord && Object.keys(this.coord).length) {
+    //   this.getForecastData(this.coord.lat, this.coord.lon);
+    // }
   },
   methods: {
     getForecastData(lat, lon) {
@@ -143,7 +146,7 @@ export default {
         .then((response) => {
           if (response.status) {
             this.forecastData = response.data.list;
-            this.groupWeatherByDay(this.forecastData);
+            this.groupWeatherByDay(response.data.list);
           } else {
             console.log("Something went wrong");
           }
@@ -186,7 +189,6 @@ export default {
         this.formattedData.humidity.push(humidity);
         this.formattedData.timestamp.push(this.formatDate(timestamp));
       });
-      console.log(this.formattedData);
     },
     generateChart() {
       this.options.xaxis.categories = this.formattedData.timestamp;
@@ -212,6 +214,19 @@ export default {
 <style lang="scss" scoped>
 .weekly-update {
   margin-bottom: 20px;
+
+  .weekly-tab {
+    ::v-deep .nav-tabs {
+      .nav-link {
+        color: $black;
+        border-bottom-color: $primary;
+        &.active {
+          color: $secondary;
+          border-color: $primary;
+        }
+      }
+    }
+  }
   .weekly-temps {
     display: flex;
     overflow-x: auto;
@@ -222,13 +237,14 @@ export default {
       border-radius: 5px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       text-align: center;
       padding: 20px;
       margin: 15px 0;
-      background-color: white;
-      border: 1px solid white;
+      background-color: $white;
+      border: 1px solid $white;
       transition: 0.3s all ease-out;
-      cursor: pointer;
+      gap: 10px;
 
       .icon {
         margin: 0 auto;
@@ -242,6 +258,11 @@ export default {
         font-size: 18px;
       }
 
+      .footer {
+        display: flex;
+        flex-direction: column;
+      }
+
       &:hover {
         border-color: $secondary;
       }
@@ -253,6 +274,23 @@ export default {
     height: 100%;
     .chart {
       min-height: 200px !important;
+    }
+  }
+}
+
+@include media-queries("tab-sm") {
+  .weekly-update {
+    .weekly-tab {
+      ::v-deep .nav-tabs {
+        overflow-x: auto;
+        overflow-y: hidden;
+        max-width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        .nav-item {
+          margin-bottom: 5px;
+        }
+      }
     }
   }
 }
