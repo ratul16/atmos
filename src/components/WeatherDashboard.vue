@@ -104,7 +104,7 @@ export default {
     // if (this.store.location) {
     //   this.getWeatherData(this.store.location);
     // }
-    console.log(import.meta.env.VITE_APP_KEY);
+    // console.log(import.meta.env.VITE_APP_KEY);
   },
   methods: {
     handleSearchQuery() {
@@ -125,9 +125,9 @@ export default {
       console.log(search);
       api
         .get(
-          `weather?q=${search}&APPID=${import.meta.env.VITE_APP_KEY}&units=${
-            this.store.units
-          }`
+          `http://api.openweathermap.org/data/2.5/weather?q=${search}&APPID=${
+            import.meta.env.VITE_APP_KEY
+          }&units=${this.store.units}`
         )
         .then((response) => {
           console.log(response.data);
