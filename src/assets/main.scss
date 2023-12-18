@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Roboto+Slab&display=swap");
+@import "./mixins.scss";
+
+$bg-variant: #f6f5f9;
+$hover: #def1fd;
+$primary: #9ed6fc;
+$secondary: #40b3ff;
+$black: #333;
+$white: #fff;
+
+/* Scroll bar stylings */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+  background-color: $primary;
+  border-radius: 10px;
+}
+
+html,
+body {
+  background-color: $bg-variant;
+  // font-size: 20px;
+}
+
+#app {
+  background-color: $bg-variant;
+  font-family: 'Roboto Slab';
+}
+
+.weather-bar {
+  background-color: $white;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  margin: 0 0 20px 0;
+
+  .temp-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: $bg-variant;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $primary;
+    }
+
+    &.active {
+      border: 1px solid $primary;
+    }
+  }
+
+  .avatar {
+    width: 35px;
+    height: 35px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+      object-fit: cover;
+      object-position: top;
+    }
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.r-tooltip {
+  position: relative;
+  cursor: pointer;
+  &::after {
+    position: absolute;
+    top: -60px;
+    left: 100%;
+    background: $hover;
+    font-size: 14px;
+    font-family: "Roboto Slab", serif;
+    font-weight: 400;
+    border-radius: 4px;
+    content: attr(data-text);
+    display: none;
+    padding: 15px;
+    width: 280px;
+    z-index: 1;
+    transition: all 0.3s ease-in-out;
+  }
+  &:hover::after {
+    display: block;
+  }
+}
+
+.quality-level {
+  border-left: 4px solid var(--bg-color);
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  span {
+    color: var(--bg-color);
+  }
+}
+
+.quality-border {
+  position: relative;
+  border-left: 4px solid var(--bg-color);
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  .condition {
+    color: var(--bg-color);
+    font-weight: 600;
+  }
+}

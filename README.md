@@ -1,41 +1,35 @@
-# [<img src="./src/assets/logo.png" width="40" style="margin-right:10px;"/>](Winter) Atmos
+# atmos
 
+This template should help get you started developing with Vue 3 in Vite.
 
- Atmos is a weather app made with vue js. You can search weather information by city name. It will information such as current Weather status, Temperature, Min - Max Temperature, Pressure , Wind Speed, Humidity, Cloud percentage, Geo Coords, Country Code etc And also depending on the Temperature the wallpaper will change for show a summer or a winter image. [Openweathermap](https://openweathermap.org/) API was used for the weather data. Soon I will be adding daily weather graph to this webapp.
+## Recommended IDE Setup
 
-[<img src="./assets/home.png" width="220" style="margin-right:10px;"/>](Home)
-[<img src="./assets/warm.png" width="220" style="margin-right:10px;"/>](Summer)
-[<img src="./assets/cold.png" width="220" style="margin-right:10px;"/>](Winter)
-[<img src="./assets/info.png" width="220" style="margin-right:10px;"/>](Info)
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
+## Customize configuration
 
- Feel free to use the project as per the [License](LICENSE) given. If you liked the project feel free to give a star 😁.
+See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Dependencies
-    "axios": "^0.19.2",
-    "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+## Project Setup
 
-
-## Project setup
-```
+```sh
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
 ```
 
-### Compiles and minifies for production
-```
+### Compile and Minify for Production
+
+```sh
 npm run build
 ```
 
-### Lints and fixes files
-```
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
