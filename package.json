@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@primevue/themes": "^4.0.2",
+    "@primevue/themes": "^4.0.4",
     "nuxt": "^3.12.4",
     "pinia": "^2.2.0",
     "primeflex": "^3.3.1",

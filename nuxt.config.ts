@@ -1,12 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import Aura from '@primevue/themes/aura/';
 import { resolve } from 'path'
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
 
   alias: {
-    '@': resolve(__dirname, "/"),
+    '@': resolve(__dirname, "./"),
   },
 
   modules: ['@primevue/nuxt-module', '@vueuse/nuxt', '@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt',],
@@ -18,17 +18,11 @@ export default defineNuxtConfig({
   ],
 
   primevue: {
+    // Ensure correct path here
+    importTheme: { from: '@/theme.js' },
     options: {
       ripple: true,
-      theme: {
-        preset: Aura,
-        options: {
-          prefix: 'p',
-          darkModeSelector: 'system',
-          cssLayer: false
-        }
-      }
-    }
+    },
   },
 
   vite: {
