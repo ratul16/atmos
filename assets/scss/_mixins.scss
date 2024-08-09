@@ -1,0 +1,224 @@
+// @use "sass:math";
+
+$breakpoints: (
+  "mobile": 576px,
+  "tab-sm": 768px,
+  "tab": 991px,
+  "desktop-sm": 1024px,
+  "desktop": 1200px,
+  "desktop-xl": 1904px
+);
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin shadow($color) {
+  box-shadow: 0 0.5rem 1rem rgba($color, 0.15);
+}
+
+@mixin text-gradient($color) {
+  background: $color;
+  text-shadow: none;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+
+@mixin media-queries($width, $type: max) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+    @if $type == min {
+      $width: $width + 1px;
+    }
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}
+// keyframes mixin
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-ms-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+.container-fluid {
+  width: 100%;
+}
+.container {
+  margin: 0 auto;
+}
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+    width: 1140px;
+  }
+}
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  .container {
+    max-width: 960px;
+    width: 960px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .container {
+    max-width: 720px;
+    width: 720px;
+  }
+}
+@media screen and (min-width: 576px) and (max-width: 768px) {
+  .container {
+    max-width: 540px;
+    width: 540px;
+  }
+}
+@media screen and (max-width: 576px) {
+  .container {
+    max-width: 95%;
+    width: 95%;
+  }
+}
+.container-sm {
+  margin: auto !important;
+}
+@media (min-width: 1200px) {
+  .container-sm {
+    max-width: 1140px;
+    width: 1140px;
+  }
+}
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  .container-sm {
+    max-width: 960px;
+    width: 960px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .container-sm {
+    max-width: 720px;
+    width: 720px;
+  }
+}
+@media screen and (min-width: 576px) and (max-width: 768px) {
+  .container-sm {
+    max-width: 540px;
+    width: 540px;
+  }
+}
+@media screen and (max-width: 576px) {
+  .container-sm {
+    max-width: 95%;
+    width: 95%;
+  }
+}
+.container-md {
+  margin: auto !important;
+}
+@media (min-width: 1200px) {
+  .container-md {
+    max-width: 1140px;
+    width: 1140px;
+  }
+}
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  .container-md {
+    max-width: 960px;
+    width: 960px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .container-md {
+    max-width: 720px;
+    width: 720px;
+  }
+}
+@media screen and (min-width: 576px) and (max-width: 768px) {
+  .container-md {
+    max-width: 95%;
+    width: 95%;
+  }
+}
+@media screen and (max-width: 576px) {
+  .container-md {
+    max-width: 95%;
+    width: 95%;
+  }
+}
+.container-lg {
+  margin: auto !important;
+}
+@media (min-width: 1200px) {
+  .container-lg {
+    max-width: 1140px;
+    width: 1140px;
+  }
+}
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  .container-lg {
+    max-width: 960px;
+    width: 960px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .container-lg {
+    max-width: 95%;
+    width: 95%;
+  }
+}
+@media screen and (min-width: 576px) and (max-width: 768px) {
+  .container-lg {
+    max-width: 95%;
+    width: 95%;
+  }
+}
+@media screen and (max-width: 576px) {
+  .container-lg {
+    max-width: 95%;
+    width: 95%;
+  }
+}
+.container-xl {
+  margin: auto !important;
+}
+@media (min-width: 1200px) {
+  .container-xl {
+    max-width: 1140px;
+    width: 1140px;
+  }
+}
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  .container-xl {
+    max-width: 95%;
+    width: 95%;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .container-xl {
+    max-width: 95%;
+    width: 95%;
+  }
+}
+@media screen and (min-width: 576px) and (max-width: 768px) {
+  .container-xl {
+    max-width: 95%;
+    width: 95%;
+  }
+}
+@media screen and (max-width: 576px) {
+  .container-xl {
+    max-width: 95%;
+    width: 95%;
+  }
+}

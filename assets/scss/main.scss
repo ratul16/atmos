@@ -1,0 +1,195 @@
+@import url("https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Roboto+Slab:wght@100..900&display=swap&family=VT323");
+// @import "./variable";
+// @import "./mixins";
+
+// Global Style
+
+// ::-moz-selection {
+//   background-color: darken($primary, 8);
+//   color: $white;
+// }
+// ::selection {
+//   background-color: darken($primary, 8);
+//   color: $white;
+// }
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba($primary, 0.05);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+  background-color: $primary;
+  border-radius: 10px;
+}
+
+// Page transition
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.3s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+  filter: blur(1rem);
+  // transition: all 0.3s ease;
+}
+
+.router-link-active,
+.router-link-exact-active {
+  font-weight: bold;
+  color: $primary !important;
+}
+
+/* exact link will show the primary color for only the exact matching link */
+// .nuxt-link-exact-active {
+//   color: #00c58e;
+// }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  position: relative;
+  background-color: $white;
+  color: $text-variant-5;
+  font-family: "Roboto Slab", sans-serif;
+  margin: 0;
+}
+
+//font styling
+.text-kaushan {
+  font-family: "Kaushan Script", "Roboto Slab", sans-serif;
+}
+
+.text-vt323 {
+  font-family: "VT323", sans-serif;
+}
+
+.router-link,
+a {
+  text-decoration: none;
+}
+/* Scroll bar stylings */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+  background-color: $primary;
+  border-radius: 10px;
+}
+
+.weather-bar {
+  background-color: $white;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  margin: 0 0 20px 0;
+
+  .temp-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: $bg-variant;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $primary;
+    }
+
+    &.active {
+      border: 1px solid $primary;
+    }
+  }
+
+  .avatar {
+    width: 35px;
+    height: 35px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+      object-fit: cover;
+      object-position: top;
+    }
+  }
+}
+
+.r-tooltip {
+  position: relative;
+  cursor: pointer;
+  &::after {
+    position: absolute;
+    top: -60px;
+    left: 100%;
+    background: $hover;
+    font-size: 14px;
+    font-family: "Roboto Slab", serif;
+    font-weight: 400;
+    border-radius: 4px;
+    content: attr(data-text);
+    display: none;
+    padding: 15px;
+    width: 280px;
+    z-index: 1;
+    transition: all 0.3s ease-in-out;
+  }
+  &:hover::after {
+    display: block;
+  }
+}
+
+.quality-level {
+  border-left: 4px solid var(--bg-color);
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  span {
+    color: var(--bg-color);
+  }
+}
+
+.quality-border {
+  position: relative;
+  border-left: 4px solid var(--bg-color);
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  .condition {
+    color: var(--bg-color);
+    font-weight: 600;
+  }
+}
