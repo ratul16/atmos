@@ -2,17 +2,17 @@
   <div class="current-update">
     <h4 class="mb-4 font-weight-bold">Today's Highlights</h4>
     <div class="detail-cards">
-      <div class="weather-card city" :class="weatherData.feelsLike >= 10 ? 'summer' : 'winter'">
+      <div class="weather-card city" :class="weatherData.feelsLike >= 14 ? 'summer' : 'winter'">
         <div class="foreground">
           <div class="content">
-            <h5>Destination <i class="fas fa-city" /></h5>
+            <h5 class="text-white">Destination <i class="fas fa-city" /></h5>
             <span>{{ weatherData.name || "" }}, {{ weatherData.country }}</span>
             <br />
           </div>
           <div>
             <h4 class="mb-1">Feels Like {{ weatherData.feelsLike }}&#176;</h4>
             <h6 class="my-0">
-              Coordinates
+              Coords:
               {{ weatherData.lat }}&#176;, {{ weatherData.lon }}&#176;
             </h6>
           </div>
@@ -35,12 +35,7 @@
         <h5 class="text-muted">Condition <i class="fas fa-feather" /></h5>
         <div class="d-flex align-items-center content">
           <img :src="`https://openweathermap.org/img/wn/${weatherData.icon}.png`" alt="" />
-          <span>{{ weatherData.description }}</span>
-          <!-- <b-img-lazy
-            class="icon"
-            
-          /> -->
-          <!--  -->
+          <span class="capitalize ml-1">{{ weatherData.description }}</span>
         </div>
       </div>
       <div class="weather-card">
@@ -228,7 +223,7 @@ function checkAirQuality(aqi) {
       }
       .content {
         span {
-          font-size: 40px;
+          font-size: 2rem;
           font-weight: 600;
           margin-right: 5px;
         }
@@ -249,17 +244,17 @@ function checkAirQuality(aqi) {
           height: 100%;
           border-radius: 5px;
           font-size: 26px;
-          // color: white;
+          color: white;
           display: flex;
           justify-content: space-between;
           flex-direction: column;
-          // background-color: rgba(59, 59, 59, 0.4);
+          background-color: rgba(59, 59, 59, 0.4);
         }
         &.winter {
-          background-image: url("https://source.unsplash.com/snowy-mountain-surrounded-with-trees-xAgvgQpYsf4/");
+          background-image: url("https://images.unsplash.com/photo-1445160307478-288488e5da27?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
         }
         &.summer {
-          background-image: url("https://source.unsplash.com/scenery-of-grass-and-trees-ocwmWiNAWGs");
+          background-image: url("https://images.unsplash.com/photo-1541417904950-b855846fe074?q=80&w=2041&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
         }
       }
     }

@@ -78,10 +78,13 @@ const search = (event) => {
       filteredCities.value = [...citiesData.value];
     } else {
       filteredCities.value = citiesData.value.filter((city) => {
-        return city.name.toLowerCase().startsWith(query);
+        // Check if query is included in either city.name or city.country
+        return (
+          city.name.toLowerCase().includes(query) || city.country.toLowerCase().includes(query)
+        );
       });
     }
-  }, 250);
+  }, 300);
 };
 
 onBeforeMount(() => {

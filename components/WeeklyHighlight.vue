@@ -200,7 +200,6 @@ onBeforeMount(() => {
 watch(
   () => props.coord,
   (newValue) => {
-    console.log("Prop value changed to", newValue);
     getForecastData(newValue.lat, newValue.lon);
   }
 );
