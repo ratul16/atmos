@@ -3,12 +3,13 @@
     <div class="mb-4">
       <h4 class="font-weight-bold">Air Pollution Highlights</h4>
     </div>
+    {{ airPollution.list }}
     <div class="pollution-index" v-if="airPollution.length">
       <div
         class="info-card quality-level"
         :style="`--bg-color:${airQualityIndex[airPollution[0].main.aqi].color}`"
       >
-        <h6 class="text-muted">Air Quality Index</h6>
+        <h5 class="text-muted">Air Quality Index</h5>
         <div class="content">
           <span>{{ airQualityInfo[airPollution[0].main.aqi].label }}</span>
           <p>
@@ -20,7 +21,7 @@
         class="info-card quality-border"
         :style="`--bg-color:${o3Quality(airPollution[0].components.o3).color}`"
       >
-        <h6 class="text-muted">Ozone (O<sub>3</sub>)</h6>
+        <h5 class="text-muted">Ozone (O<sub>3</sub>)</h5>
         <div class="content">
           <span>{{ airPollution[0].components.o3 }}</span>
           <span class="small-text">μg/m<sup>3</sup></span>
@@ -33,7 +34,7 @@
         class="info-card quality-border"
         :style="`--bg-color:${coQuality(airPollution[0].components.co).color}`"
       >
-        <h6 class="text-muted">Carbon monoxide (CO)</h6>
+        <h5 class="text-muted">Carbon monoxide (CO)</h5>
         <div class="content">
           <span>{{ airPollution[0].components.co }}</span>
           <span class="small-text">μg/m<sup>3</sup></span>
@@ -46,7 +47,7 @@
         class="info-card quality-border"
         :style="`--bg-color:${no2Quality(airPollution[0].components.no2).color}`"
       >
-        <h6 class="text-muted">Nitrogen dioxide (NO<sub>2</sub>)</h6>
+        <h5 class="text-muted">Nitrogen dioxide (NO<sub>2</sub>)</h5>
         <div class="content">
           <span>{{ airPollution[0].components.no2 }}</span>
           <span class="small-text">μg/m<sup>3</sup></span>
@@ -59,7 +60,7 @@
         class="info-card quality-border"
         :style="`--bg-color:${so2Quality(airPollution[0].components.so2).color}`"
       >
-        <h6 class="text-muted">Sulphur dioxide (SO<sub>2</sub>)</h6>
+        <h5 class="text-muted">Sulphur dioxide (SO<sub>2</sub>)</h5>
         <div class="content">
           <span>{{ airPollution[0].components.so2 }}</span>
           <span class="small-text">μg/m<sup>3</sup></span>
@@ -72,7 +73,7 @@
         class="info-card quality-border"
         :style="`--bg-color:${nh3Quality(airPollution[0].components.nh3).color}`"
       >
-        <h6 class="text-muted">Ammonia (NH<sub>3</sub>)</h6>
+        <h5 class="text-muted">Ammonia (NH<sub>3</sub>)</h5>
         <div class="content">
           <span>{{ airPollution[0].components.nh3 }}</span>
           <span class="small-text">μg/m<sup>3</sup></span>
@@ -90,7 +91,17 @@
 
 <script setup>
 import { ref, onMounted, watch } from "vue";
-import compoundQuality from "../composables/compoundQuality";
+import { useAirQuality } from "@composables/compoundQuality";
+
+const {
+  airQualityInfo,
+  airQualityIndex,
+  o3Quality,
+  no2Quality,
+  coQuality,
+  so2Quality,
+  nh3Quality,
+} = useAirQuality();
 
 // Define props
 const props = defineProps({
@@ -105,9 +116,9 @@ const airPollution = ref([]);
 
 const fetchAirPollution = async (lat, lon) => {
   let searchQuery = `air_pollution?lat=${lat}&lon=${lon}`;
-  console.log(searchQuery);
-  const response = await fetch(`/api/weather?query=${searchQuery}`);
-  airPollution.value = await response.json();
+  const response = await useFetch(`/api/weather?query=${encodeURIComponent(searchQuery)}`);
+  console.log(response.data.value);
+  airPollution.value = response.data.value.list;
 };
 
 onMounted(() => {
@@ -132,14 +143,21 @@ watch(props, (newValue) => {
     grid-template-columns: repeat(3, 1fr);
     .info-card {
       // min-height: 150px;
+      @include shadow($text-variant-4);
       border-radius: 5px;
       padding: 20px;
-      background-color: white;
+      h5 {
+        margin: 0 auto;
+        color: $text-variant-4;
+      }
       .content {
         span {
           font-size: 40px;
           font-weight: 600;
           margin-right: 5px;
+        }
+        .condition {
+          display: block;
         }
         .small-text {
           font-size: 20px;

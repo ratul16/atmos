@@ -1,14 +1,11 @@
 <template>
   <div class="weekly-update">
     <h4 class="mb-4 font-weight-bold">Weekly Highlights</h4>
-    <!-- <div
-      class="loading d-flex justify-content-between align-items-center"
-      v-if="isLoading"
-    >
+    <div class="loading d-flex justify-content-between align-items-center" v-if="isLoading">
       <h4>Fetching Weather Data...</h4>
-      <b-spinner variant="secondary" label="Loading..."></b-spinner>
-    </div> -->
-    <Tabs :value="0">
+      {{ props.coord }}
+    </div>
+    <Tabs :value="0" v-else>
       <TabList>
         <Tab v-for="(day, index) in Object.keys(weeklyData)" :key="index" :value="index">
           {{
@@ -67,7 +64,7 @@
 
 <script setup>
 // Import necessary data and modules
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onBeforeMount } from "vue";
 import weekly from "../data/weekly.json";
 // import api from "../scripts/api";
 
@@ -124,19 +121,15 @@ const weeklyData = ref({});
 
 // Define methods
 const getForecastData = async (lat, lon) => {
-  try {
-    const response = await api.get(
-      `forecast?lat=${lat}&lon=${lon}&APPID=${import.meta.env.VITE_APP_KEY}&units=metric`
-    );
-    if (response.status) {
-      forecastData.value = response.data.list;
-      groupWeatherByDay(response.data.list);
-    } else {
-      console.log("Something went wrong");
-    }
-  } catch (error) {
-    console.log(error);
-  }
+  isLoading.value = true;
+  let searchQuery = `forecast?lat=${lat}&lon=${lon}&units=metric`;
+  const response = await fetch(`/api/weather?query=${encodeURIComponent(searchQuery)}`);
+  console.log(response);
+  // if (response.data.value.cod === 200) {
+  //   forecastData.value = response.data.value.list;
+  //   groupWeatherByDay(response.data.value.list);
+  // }
+  // isLoading.value = false;
 };
 
 const groupWeatherByDay = (data) => {
@@ -195,19 +188,25 @@ const generateChart = () => {
 };
 
 // Lifecycle hooks and watchers
-onMounted(() => {
-  groupWeatherByDay(forecastData.value);
+onBeforeMount(() => {
+  // groupWeatherByDay(forecastData.value);
   if (props.coord && Object.keys(props.coord).length) {
-    // Uncomment the following line to fetch data when coordinates are available
-    // getForecastData(props.coord.lat, props.coord.lon);
+    getForecastData(props.coord.lat, props.coord.lon);
   }
 });
+
+watch(
+  () => props.coord,
+  (newValue) => {
+    console.log("Prop changed from", oldValue, "to", newValue);
+    getForecastData(newValue.lat, newValue.lon);
+    // Perform any additional actions here
+  }
+);
 </script>
 
 <style lang="scss" scoped>
 .weekly-update {
-  margin-bottom: 20px;
-
   .weekly-tab {
     .nav-tabs {
       .nav-link {
@@ -224,6 +223,7 @@ onMounted(() => {
     display: flex;
     overflow-x: auto;
     gap: 20px;
+    padding: 0 1rem;
     .temp-card {
       flex-basis: calc(100% / 7);
       min-width: 140px;
@@ -233,9 +233,9 @@ onMounted(() => {
       justify-content: space-between;
       text-align: center;
       padding: 20px;
-      margin: 15px 0;
+      margin: 2rem 0;
       background-color: $white;
-      border: 1px solid $white;
+      @include shadow($text-variant-4);
       transition: 0.3s all ease-out;
       gap: 10px;
 

@@ -6,7 +6,7 @@
         v-model="selectedCity"
         :suggestions="filteredCities"
         optionLabel="name"
-        @complete="searchCity"
+        @complete="search"
         @option-select="getWeather"
         emptySearchMessage="No matching city found"
         placeholder="Search for a city"
@@ -22,25 +22,21 @@
         </template>
       </AutoComplete>
     </InputGroup>
-    <div v-if="weather" class="mt-4">
-      <TodayHighlight :currentData="weather" />
+    <div class="flex flex-column gap-4">
+      <TodayHighlight :currentData="weather" :key="weather" />
       <!-- <hr /> -->
       <WeeklyHighlight :coord="weather.coord" />
       <!-- <hr /> -->
-      <!-- <AirPollutionChart :coord="weatherData.coord" /> -->
+      <AirPollutionChart :coord="weather.coord" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useGlobalStore } from "~/store/global";
 
-// city json data
-
 const global = useGlobalStore();
-
-const search = ref("london");
 const weather = ref({});
 const selectedCity = ref(null);
 const filteredCities = ref([]);
@@ -48,32 +44,32 @@ const citiesData = ref([]);
 
 const getWeather = async (event) => {
   let searchQuery = `weather?q=${event.value.name}`;
-  console.log(searchQuery);
   const response = await fetch(`/api/weather?query=${searchQuery}`);
   weather.value = await response.json();
   global.selectedLocation = weather.value;
 };
 
-// const getWeather = (event) => {
-//   console.log(event.value);
-// };
 const getCityList = async () => {
   const city = await useFetch("/api/city");
   citiesData.value = city.data.value;
 };
 
-const searchCity = (event) => {
-  const query = event.query.toLowerCase();
-  if (!Array.isArray(citiesData.value)) {
-    console.error("citiesData is not an array:", citiesData.value);
-    return;
-  }
-  filteredCities.value = citiesData.value.filter((city) => city.name.toLowerCase().includes(query));
-  console.log(filteredCities.value);
+const search = (event) => {
+  setTimeout(() => {
+    const query = event.query.toLowerCase().trim();
+
+    if (query.length === 0) {
+      filteredCities.value = [...citiesData.value];
+    } else {
+      filteredCities.value = citiesData.value.filter((city) => {
+        return city.name.toLowerCase().startsWith(query);
+      });
+    }
+  }, 250);
 };
 
-onMounted(() => {
+onBeforeMount(async () => {
   weather.value = global.selectedLocation;
-  getCityList();
+  await getCityList();
 });
 </script>

@@ -2,11 +2,11 @@ import { getQuery } from 'h3';
 
 export default defineEventHandler(async (event) => {
   const { query } = getQuery(event);
-  console.log(query);
   const config = useRuntimeConfig();
   const apiKey = config.private.openWeatherApiKey;
 
   const apiUrl = `https://api.openweathermap.org/data/2.5/${query}&appid=${apiKey}`;
+  // console.log(apiUrl);
 
   try {
     const response = await fetch(apiUrl);

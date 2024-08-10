@@ -7,6 +7,7 @@ export default defineNuxtConfig({
 
   alias: {
     '@': resolve(__dirname, "./"),
+    '@composables': resolve(__dirname, './composables'),
   },
 
   modules: ['@primevue/nuxt-module', '@vueuse/nuxt', '@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt',],
@@ -52,13 +53,12 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       title: 'Atmos',
-      link: [
+      script: [
         {
-          rel: 'stylesheet',
-          href:
-            'https://kit.fontawesome.com/16d5298cef.js'
+          src: 'https://kit.fontawesome.com/16d5298cef.js',
+          crossorigin: 'anonymous',
         }
-      ]
+      ],
     }
   }
 })

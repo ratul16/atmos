@@ -5,13 +5,13 @@
       <div class="weather-card city" :class="weatherData.feelsLike >= 10 ? 'summer' : 'winter'">
         <div class="foreground">
           <div class="content">
-            <h6>Destination <i class="fas fa-city" /></h6>
+            <h5>Destination <i class="fas fa-city" /></h5>
             <span>{{ weatherData.name || "" }}, {{ weatherData.country }}</span>
             <br />
           </div>
           <div>
-            <h4>Feels Like {{ weatherData.feelsLike }}&#176;</h4>
-            <h6>
+            <h4 class="mb-1">Feels Like {{ weatherData.feelsLike }}&#176;</h4>
+            <h6 class="my-0">
               Coordinates
               {{ weatherData.lat }}&#176;, {{ weatherData.lon }}&#176;
             </h6>
@@ -19,20 +19,20 @@
         </div>
       </div>
       <div class="weather-card">
-        <h6 class="text-muted">Temperature <i class="fas fa-thermometer-full" /></h6>
+        <h5 class="text-muted">Temperature <i class="fas fa-thermometer-full" /></h5>
         <div class="content">
           <span>{{ weatherData.current }}&#176;</span>
         </div>
       </div>
       <div class="weather-card">
-        <h6 class="text-muted">Min/Max Temperature <i class="fas fa-thermometer-half" /></h6>
+        <h5 class="text-muted">Min/Max Temperature <i class="fas fa-thermometer-half" /></h5>
         <div class="content">
           <span>{{ weatherData.min }}&#176; | </span>
           <span>{{ weatherData.max }}&#176;</span>
         </div>
       </div>
       <div class="weather-card">
-        <h6 class="text-muted">Condition <i class="fas fa-feather" /></h6>
+        <h5 class="text-muted">Condition <i class="fas fa-feather" /></h5>
         <div class="d-flex align-items-center content">
           <img :src="`https://openweathermap.org/img/wn/${weatherData.icon}.png`" alt="" />
           <span>{{ weatherData.description }}</span>
@@ -44,35 +44,35 @@
         </div>
       </div>
       <div class="weather-card">
-        <h6 class="text-muted">Wind Speed <i class="fas fa-wind" /></h6>
+        <h5 class="text-muted">Wind Speed <i class="fas fa-wind" /></h5>
         <div class="content">
           <span>{{ weatherData.wind?.speed || "N/A" }}</span>
           <span class="small-text">km/h ({{ weatherData.wind?.direction || "" }}&#176;)</span>
         </div>
       </div>
       <div class="weather-card">
-        <h6 class="text-muted">Humidity <i class="fas fa-tint" /></h6>
+        <h5 class="text-muted">Humidity <i class="fas fa-tint" /></h5>
         <div class="content">
           <span>{{ weatherData.humidity }}</span>
           <span class="small-text">%</span>
         </div>
       </div>
       <div class="weather-card">
-        <h6 class="text-muted">Pressure <i class="fas fa-weight" /></h6>
+        <h5 class="text-muted">Pressure <i class="fas fa-weight" /></h5>
         <div class="content">
           <span>{{ weatherData.pressure }}</span>
           <span class="small-text">hPa</span>
         </div>
       </div>
       <div class="weather-card">
-        <h6 class="text-muted">Visibility <i class="fas fa-low-vision" /></h6>
+        <h5 class="text-muted">Visibility <i class="fas fa-low-vision" /></h5>
         <div class="content">
           <span>{{ weatherData.visibility }}</span>
           <span class="small-text">km</span>
         </div>
       </div>
       <!-- <div class="weather-card">
-        <h6 class="text-muted">Air Quality <i class="fas fa-fan" /></h6>
+        <h5 class="text-muted">Air Quality <i class="fas fa-fan" /></h5>
         <div class="content">
           <span>{{airQualityInfo[4].label}}</span>
           <i
@@ -212,9 +212,12 @@ function checkAirQuality(aqi) {
       border-radius: 5px;
       padding: 20px;
       background-color: $white;
-      border: 1px solid $border-variant-1;
+      @include shadow($text-variant-4);
       transition: 0.3s all ease-out;
-
+      h5 {
+        margin: 0 auto;
+        color: $text-variant-4;
+      }
       &:hover {
         border-color: $secondary;
       }
