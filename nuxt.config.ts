@@ -18,11 +18,14 @@ export default defineNuxtConfig({
   ],
 
   primevue: {
-    // Ensure correct path here
     importTheme: { from: '@/theme.js' },
     options: {
       ripple: true,
     },
+  },
+
+  pinia: {
+    storesDirs: ['@stores/**'],
   },
 
   vite: {
@@ -39,8 +42,9 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    public: {
+    private: {
       openWeatherApiKey: process.env.OPENWEATHER_API_KEY,
+      cityUrl: process.env.GIST_URL,
     },
   },
 

@@ -1,11 +1,5 @@
 <template>
-  <div
-    :class="{
-      'theme-light': !isDarkMode,
-      'theme-dark': isDarkMode,
-    }"
-    class="h-screen bg-themeBackground p-5"
-  >
+  <div class="h-screen bg-themeBackground p-5">
     <header>
       <Menubar :model="items">
         <template #start>
@@ -85,9 +79,8 @@
             <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down ml-2" />
           </a>
         </template>
-        <template #end>
+        <!-- <template #end>
           <div class="flex items-center gap-2">
-            <!-- <InputText placeholder="Search" type="text" class="w-48 sm:w-auto" /> -->
             {{ isDarkMode }}
             <Button
               :icon="isDarkMode ? 'pi pi-moon' : 'pi pi-sun'"
@@ -96,7 +89,7 @@
               @click="toggleTheme"
             />
           </div>
-        </template>
+        </template> -->
       </Menubar>
     </header>
     <NuxtLayout>
@@ -106,36 +99,7 @@
 </template>
 
 <script setup>
-import { useState } from "#app";
-import { onMounted, watch, ref } from "vue";
-
-const LOCAL_STORAGE_THEME_KEY = "theme";
-
-const isDarkMode = useState("theme", () => false);
-
-const toggleTheme = () => {
-  isDarkMode.value = !isDarkMode.value;
-};
-
-const setTheme = (newTheme) => {
-  localStorage.setItem(LOCAL_STORAGE_THEME_KEY, newTheme);
-  isDarkMode.value = newTheme === "dark";
-};
-
-onMounted(() => {
-  const isDarkModePreferred = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const themeFromLocalStorage = localStorage.getItem(LOCAL_STORAGE_THEME_KEY);
-
-  if (themeFromLocalStorage) {
-    setTheme(themeFromLocalStorage);
-  } else {
-    setTheme(isDarkModePreferred ? "dark" : "light");
-  }
-});
-
-watch(isDarkMode, (selected) => {
-  setTheme(selected ? "dark" : "light");
-});
+import { ref } from "vue";
 
 const items = ref([
   {

@@ -77,9 +77,8 @@
         <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down ml-2" />
       </a>
     </template>
-    <template #end>
+    <!-- <template #end>
       <div class="flex items-center gap-2">
-        <!-- <InputText placeholder="Search" type="text" class="w-48 sm:w-auto" /> -->
         <Button
           :icon="isDarkMode ? 'pi pi-moon' : 'pi pi-sun'"
           rounded
@@ -87,17 +86,13 @@
           @click="toggleTheme"
         />
       </div>
-    </template>
+    </template> -->
   </Menubar>
 </template>
 
 <script setup>
 import { ref } from "vue";
 
-const isDarkMode = ref(false);
-const toggleTheme = () => {
-  isDarkMode.value = !isDarkMode.value;
-};
 const items = ref([
   {
     label: "Home",

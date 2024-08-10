@@ -1,11 +1,9 @@
-import { defineStore } from 'pinia';
-
 export const useGlobalStore = defineStore('global', {
   state: () => ({
     appName: 'Nuxt 3 Project template',
-    theme: 'light'
+    theme: 'light',
+    selectedLocation: {}
   }),
-  persist: true,
   getters: {
     getTheme() {
       return this.theme;
@@ -20,4 +18,9 @@ export const useGlobalStore = defineStore('global', {
       this.theme = JSON.parse(savedKey).theme;
     },
   },
+  persist: true
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useGlobalStore, import.meta.hot))
+}

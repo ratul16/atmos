@@ -212,7 +212,7 @@ function checkAirQuality(aqi) {
       border-radius: 5px;
       padding: 20px;
       background-color: $white;
-      border: 1px solid $white;
+      border: 1px solid $border-variant-1;
       transition: 0.3s all ease-out;
 
       &:hover {
@@ -241,11 +241,11 @@ function checkAirQuality(aqi) {
           height: 100%;
           border-radius: 5px;
           font-size: 26px;
-          color: white;
+          // color: white;
           display: flex;
           justify-content: space-between;
           flex-direction: column;
-          background-color: rgba(59, 59, 59, 0.4);
+          // background-color: rgba(59, 59, 59, 0.4);
         }
         &.winter {
           background-image: url("https://source.unsplash.com/snowy-mountain-surrounded-with-trees-xAgvgQpYsf4/");

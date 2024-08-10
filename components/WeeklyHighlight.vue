@@ -65,138 +65,143 @@
   </div>
 </template>
 
-<script>
-// import api from "../scripts/api";
+<script setup>
+// Import necessary data and modules
+import { ref, watch, onMounted } from "vue";
 import weekly from "../data/weekly.json";
-// import VueApexCharts from "vue-apexcharts";
+// import api from "../scripts/api";
 
-export default {
-  name: "WeeklyHighlight",
-  props: {
-    coord: {
-      type: Object,
-      default: () => {},
-    },
+const props = defineProps({
+  coord: {
+    type: Object,
+    default: () => ({}),
   },
-  data() {
-    return {
-      isLoading: true,
-      options: {
-        chart: {
-          id: "weekly",
-        },
-        xaxis: {
-          categories: [
-            "12 Aug 2023",
-            "13 Aug 2023",
-            "14 Aug 2023",
-            "15 Aug 2023",
-            "16 Aug 2023",
-            "17 Aug 2023",
-            "18 Aug 2023",
-          ],
-        },
-      },
-      series: [
-        {
-          name: "Temperature",
-          data: [30, 33, 35, 40, 30, 33, 35, 32],
-        },
-        {
-          name: "Wind Speed",
-          data: [56, 54, 57, 54, 57, 59, 53, 51],
-        },
-        {
-          name: "Humidity",
-          data: [44, 40, 45, 40, 49, 40, 40, 51],
-        },
-      ],
-      forecastData: weekly,
-      formattedData: {
-        temp: [],
-        wind_speed: [],
-        humidity: [],
-        timestamp: [],
-      },
-      weeklyData: {},
-    };
+});
+
+// Define reactive state
+const isLoading = ref(true);
+const options = ref({
+  chart: {
+    id: "weekly",
   },
-  mounted() {
-    this.groupWeatherByDay(this.forecastData);
-    if (this.coord && Object.keys(this.coord).length) {
-      // this.getForecastData(this.coord.lat, this.coord.lon);
+  xaxis: {
+    categories: [
+      "12 Aug 2023",
+      "13 Aug 2023",
+      "14 Aug 2023",
+      "15 Aug 2023",
+      "16 Aug 2023",
+      "17 Aug 2023",
+      "18 Aug 2023",
+    ],
+  },
+});
+
+const series = ref([
+  {
+    name: "Temperature",
+    data: [30, 33, 35, 40, 30, 33, 35, 32],
+  },
+  {
+    name: "Wind Speed",
+    data: [56, 54, 57, 54, 57, 59, 53, 51],
+  },
+  {
+    name: "Humidity",
+    data: [44, 40, 45, 40, 49, 40, 40, 51],
+  },
+]);
+
+const forecastData = ref(weekly);
+const formattedData = ref({
+  temp: [],
+  wind_speed: [],
+  humidity: [],
+  timestamp: [],
+});
+
+const weeklyData = ref({});
+
+// Define methods
+const getForecastData = async (lat, lon) => {
+  try {
+    const response = await api.get(
+      `forecast?lat=${lat}&lon=${lon}&APPID=${import.meta.env.VITE_APP_KEY}&units=metric`
+    );
+    if (response.status) {
+      forecastData.value = response.data.list;
+      groupWeatherByDay(response.data.list);
+    } else {
+      console.log("Something went wrong");
     }
-  },
-  methods: {
-    getForecastData(lat, lon) {
-      api
-        .get(`forecast?lat=${lat}&lon=${lon}&APPID=${import.meta.env.VITE_APP_KEY}&units=metric`)
-        .then((response) => {
-          if (response.status) {
-            this.forecastData = response.data.list;
-            this.groupWeatherByDay(response.data.list);
-          } else {
-            console.log("Something went wrong");
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    groupWeatherByDay(data) {
-      const groupedData = {};
-      data.forEach((item) => {
-        const date = item.dt_txt.split(" ")[0]; // Extracting date without time
-        if (!groupedData[date]) {
-          groupedData[date] = [];
-        }
-        groupedData[date].push(item);
-      });
-      this.weeklyData = groupedData;
-    },
-    formatDate(timestamp) {
-      const date = new Date(timestamp * 1000); // Convert to milliseconds
-      const day = date.getDate();
-      const month = date.toLocaleString("default", { month: "short" }); // Get short month name
-      const time = date.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-      return `${day} ${month}, ${time}`;
-    },
-    formatData() {
-      var data = this.forecastData;
-      data.forEach((entry) => {
-        const temp = entry.main.temp;
-        const windSpeed = entry.wind.speed;
-        const humidity = entry.main.humidity;
-        const timestamp = entry.dt;
-
-        this.formattedData.temp.push(temp);
-        this.formattedData.wind_speed.push(windSpeed);
-        this.formattedData.humidity.push(humidity);
-        this.formattedData.timestamp.push(this.formatDate(timestamp));
-      });
-    },
-    generateChart() {
-      this.options.xaxis.categories = this.formattedData.timestamp;
-      this.series = [
-        {
-          name: "Temperature",
-          data: this.formattedData.temp,
-        },
-        {
-          name: "Wind Speed",
-          data: this.formattedData.wind_speed,
-        },
-        {
-          name: "Humidity",
-          data: this.formattedData.humidity,
-        },
-      ];
-    },
-  },
+  } catch (error) {
+    console.log(error);
+  }
 };
+
+const groupWeatherByDay = (data) => {
+  const groupedData = {};
+  data.forEach((item) => {
+    const date = item.dt_txt.split(" ")[0]; // Extracting date without time
+    if (!groupedData[date]) {
+      groupedData[date] = [];
+    }
+    groupedData[date].push(item);
+  });
+  weeklyData.value = groupedData;
+};
+
+const formatDate = (timestamp) => {
+  const date = new Date(timestamp * 1000); // Convert to milliseconds
+  const day = date.getDate();
+  const month = date.toLocaleString("default", { month: "short" }); // Get short month name
+  const time = date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return `${day} ${month}, ${time}`;
+};
+
+const formatData = () => {
+  forecastData.value.forEach((entry) => {
+    const temp = entry.main.temp;
+    const windSpeed = entry.wind.speed;
+    const humidity = entry.main.humidity;
+    const timestamp = entry.dt;
+
+    formattedData.value.temp.push(temp);
+    formattedData.value.wind_speed.push(windSpeed);
+    formattedData.value.humidity.push(humidity);
+    formattedData.value.timestamp.push(formatDate(timestamp));
+  });
+};
+
+const generateChart = () => {
+  options.value.xaxis.categories = formattedData.value.timestamp;
+  series.value = [
+    {
+      name: "Temperature",
+      data: formattedData.value.temp,
+    },
+    {
+      name: "Wind Speed",
+      data: formattedData.value.wind_speed,
+    },
+    {
+      name: "Humidity",
+      data: formattedData.value.humidity,
+    },
+  ];
+};
+
+// Lifecycle hooks and watchers
+onMounted(() => {
+  groupWeatherByDay(forecastData.value);
+  if (props.coord && Object.keys(props.coord).length) {
+    // Uncomment the following line to fetch data when coordinates are available
+    // getForecastData(props.coord.lat, props.coord.lon);
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -204,7 +209,7 @@ export default {
   margin-bottom: 20px;
 
   .weekly-tab {
-    ::v-deep .nav-tabs {
+    .nav-tabs {
       .nav-link {
         color: $black;
         border-bottom-color: $primary;
@@ -269,7 +274,7 @@ export default {
 @include media-queries("tab-sm") {
   .weekly-update {
     .weekly-tab {
-      ::v-deep .nav-tabs {
+      .nav-tabs {
         overflow-x: auto;
         overflow-y: hidden;
         max-width: 100%;
