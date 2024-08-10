@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, watch } from "vue";
 import { useGlobalStore } from "~/store/global";
 
 const global = useGlobalStore();
@@ -86,6 +86,13 @@ const search = (event) => {
     }
   }, 300);
 };
+
+watch(
+  () => global.weather,
+  (newValue) => {
+    weather.value = newValue;
+  }
+);
 
 onBeforeMount(() => {
   weather.value = global.weather;

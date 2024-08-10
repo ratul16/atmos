@@ -99,7 +99,14 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
+import { useGlobalStore } from "~/store/global";
+
+const global = useGlobalStore();
+
+onBeforeMount(() => {
+  global.getWeatherData;
+});
 
 const items = ref([
   {
