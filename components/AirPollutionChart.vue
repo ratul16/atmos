@@ -1,7 +1,14 @@
 <template>
   <div class="air-pollution">
     <div class="mb-4">
-      <h4 class="font-weight-bold">Air Pollution Highlights</h4>
+      <h4 class="font-weight-bold mb-1">Air Pollution Highlights</h4>
+      <small>
+        Note: Air quality index status follows
+        <a target="_blank" href="https://www.eea.europa.eu/themes/air/air-quality-index">
+          European Environment Agency
+        </a>
+        Chart
+      </small>
     </div>
     {{ airPollution.list }}
     <div class="pollution-index" v-if="airPollution.length">
@@ -116,9 +123,17 @@ const airPollution = ref([]);
 
 const fetchAirPollution = async (lat, lon) => {
   let searchQuery = `air_pollution?lat=${lat}&lon=${lon}`;
-  const response = await useFetch(`/api/weather?query=${encodeURIComponent(searchQuery)}`);
-  console.log(response.data.value);
-  airPollution.value = response.data.value.list;
+  try {
+    const response = await $fetch(`/api/weather?query=${encodeURIComponent(searchQuery)}`);
+    if (response.status === 200) {
+      airPollution.value = response.data.list;
+      // groupWeatherByDay(forecastData.value);
+    } else {
+      console.error("No data returned from the API");
+    }
+  } catch (error) {
+    console.error("Error fetching air pollution data:", error);
+  }
 };
 
 onMounted(() => {
@@ -137,6 +152,11 @@ watch(props, (newValue) => {
 <style lang="scss" scoped>
 .air-pollution {
   margin-bottom: 20px;
+
+  a {
+    text-decoration: none;
+    color: $primary;
+  }
   .pollution-index {
     display: grid;
     gap: 20px;

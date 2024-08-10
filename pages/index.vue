@@ -24,9 +24,7 @@
     </InputGroup>
     <div class="flex flex-column gap-4">
       <TodayHighlight :currentData="weather" :key="weather" />
-      <!-- <hr /> -->
       <WeeklyHighlight :coord="weather.coord" />
-      <!-- <hr /> -->
       <AirPollutionChart :coord="weather.coord" />
     </div>
   </div>
@@ -44,14 +42,32 @@ const citiesData = ref([]);
 
 const getWeather = async (event) => {
   let searchQuery = `weather?q=${event.value.name}`;
-  const response = await fetch(`/api/weather?query=${searchQuery}`);
-  weather.value = await response.json();
-  global.selectedLocation = weather.value;
+  global.selectedLocation = event.value;
+  try {
+    // always use $fetch not useFetch which is a composable
+    const response = await $fetch(`/api/weather?query=${searchQuery}`);
+    if (response.status === 200) {
+      weather.value = response.data;
+      global.weather = weather.value;
+    } else {
+      console.error("No data returned from the API");
+    }
+  } catch (error) {
+    console.error("Error fetching weather data:", error);
+  }
 };
 
 const getCityList = async () => {
-  const city = await useFetch("/api/city");
-  citiesData.value = city.data.value;
+  try {
+    const response = await $fetch("/api/city");
+    if (response.status === 200) {
+      citiesData.value = response.data;
+    } else {
+      console.error("No data returned from the API");
+    }
+  } catch (error) {
+    console.error("Error fetching city list:", error);
+  }
 };
 
 const search = (event) => {
@@ -68,8 +84,8 @@ const search = (event) => {
   }, 250);
 };
 
-onBeforeMount(async () => {
-  weather.value = global.selectedLocation;
-  await getCityList();
+onBeforeMount(() => {
+  weather.value = global.weather;
+  getCityList();
 });
 </script>

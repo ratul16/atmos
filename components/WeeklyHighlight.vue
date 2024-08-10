@@ -1,9 +1,11 @@
 <template>
   <div class="weekly-update">
     <h4 class="mb-4 font-weight-bold">Weekly Highlights</h4>
-    <div class="loading d-flex justify-content-between align-items-center" v-if="isLoading">
+    <div
+      class="loading d-flex justify-content-between align-items-center"
+      v-if="forecastData.length === 0"
+    >
       <h4>Fetching Weather Data...</h4>
-      {{ props.coord }}
     </div>
     <Tabs :value="0" v-else>
       <TabList>
@@ -15,7 +17,14 @@
           }}
         </Tab>
       </TabList>
-      <TabPanels>
+      <TabPanels
+        :pt="{
+          root: {
+            class: 'p-0 border-bottom-1',
+          },
+        }"
+        style="border-color: var(--p-primary-100)"
+      >
         <TabPanel v-for="(day, index) in Object.keys(weeklyData)" :key="index" :value="index">
           <div class="weekly-temps">
             <div class="temp-card" v-for="(data, index) in weeklyData[day]" :key="index">
@@ -29,7 +38,6 @@
               <div class="temp">
                 <span>{{ data.main.temp }}&#176;</span>
               </div>
-
               <img
                 class="icon"
                 :src="`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`"
@@ -50,15 +58,6 @@
         </TabPanel>
       </TabPanels>
     </Tabs>
-    <!-- {{ Object.keys(weeklyData) }} -->
-    <!-- <div class="weekly-graph">
-      <VueApexCharts
-        class="chart"
-        type="line"
-        :options="options"
-        :series="series"
-      />
-    </div> -->
   </div>
 </template>
 
@@ -121,15 +120,18 @@ const weeklyData = ref({});
 
 // Define methods
 const getForecastData = async (lat, lon) => {
-  // isLoading.value = true;
-  let searchQuery = `forecast?lat=${lat}&lon=${lon}&units=metric`;
-  const { data } = await useFetch(`/api/weather?query=${encodeURIComponent(searchQuery)}`);
-  console.log(data.value.list);
-  // if (response.data.value.cod === 200) {
-  //   forecastData.value = response.data.value.list;
-  //   groupWeatherByDay(response.data.value.list);
-  // }
-  // isLoading.value = false;
+  let searchQuery = `forecast?lat=${lat}&lon=${lon}`;
+  try {
+    const response = await $fetch(`/api/weather?query=${encodeURIComponent(searchQuery)}`);
+    if (response.status === 200) {
+      forecastData.value = response.data.list;
+      groupWeatherByDay(forecastData.value);
+    } else {
+      console.error("No data returned from the API");
+    }
+  } catch (error) {
+    console.error("Error fetching weather data:", error);
+  }
 };
 
 const groupWeatherByDay = (data) => {
@@ -190,8 +192,6 @@ const generateChart = () => {
 // Lifecycle hooks and watchers
 onBeforeMount(() => {
   // groupWeatherByDay(forecastData.value);
-  console.log(props.coord);
-
   if (Object.keys(props.coord).length !== 0) {
     getForecastData(props.coord.lat, props.coord.lon);
   }
@@ -202,7 +202,6 @@ watch(
   (newValue) => {
     console.log("Prop value changed to", newValue);
     getForecastData(newValue.lat, newValue.lon);
-    // Perform any additional actions here
   }
 );
 </script>

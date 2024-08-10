@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   const apiKey = config.private.openWeatherApiKey;
 
-  const apiUrl = `https://api.openweathermap.org/data/2.5/${query}&appid=${apiKey}`;
+  const apiUrl = `https://api.openweathermap.org/data/2.5/${query}&units=metric&appid=${apiKey}`;
   // console.log(apiUrl);
 
   try {
@@ -17,7 +17,11 @@ export default defineEventHandler(async (event) => {
       };
     }
     const data = await response.json();
-    return data;
+    return {
+      status: 200,
+      message: 'Weather fetched successfully',
+      data,
+    };
   } catch (error) {
     return {
       statusCode: 500,

@@ -5,24 +5,25 @@ export default defineEventHandler(async (event) => {
   try {
     const response = await fetch(url);
 
-    // Check if the response is OK
     if (!response.ok) {
       return {
-        statusCode: response.status,
-        body: { message: response.statusText },
+        status: response.status,
+        message: response.statusText || 'Failed to fetch data',
+        data: [],
       };
     }
 
-    // Check the content-type header
-    const contentType = response.headers.get('content-type');
-
-    // Parse and return the JSON data
     const data = await response.json();
-    return data;
+    return {
+      status: 200,
+      message: 'City List fetched successfully',
+      data,
+    };
   } catch (error) {
     return {
-      statusCode: 500,
-      body: { message: error.message },
+      status: 500,
+      message: error.message || 'Internal Server Error',
+      data: [],
     };
   }
 });

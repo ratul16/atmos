@@ -2,7 +2,10 @@ export const useGlobalStore = defineStore('global', {
   state: () => ({
     appName: 'Nuxt 3 Project template',
     theme: 'light',
-    selectedLocation: {}
+    selectedLocation: {},
+    weather: {},
+    weeklyData: {},
+    airPollution: {}
   }),
   getters: {
     getTheme() {
@@ -18,7 +21,9 @@ export const useGlobalStore = defineStore('global', {
       this.theme = JSON.parse(savedKey).theme;
     },
   },
-  persist: true,
+  persist: {
+    storage: persistedState.localStorage,
+  },
 });
 
 if (import.meta.hot) {
