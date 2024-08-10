@@ -102,9 +102,14 @@ onMounted(() => {
   }
 });
 
-watch(props, (newValue) => {
-  weatherData.value = parseWeatherData(newValue.currentData);
-});
+watch(
+  () => props.currentData,
+  (newValue) => {
+    console.log("Prop changed to", newValue);
+    weatherData.value = parseWeatherData(newValue);
+    // Perform any additional actions here
+  }
+);
 
 // Reactive state
 const weatherData = ref({});

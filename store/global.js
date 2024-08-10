@@ -18,7 +18,7 @@ export const useGlobalStore = defineStore('global', {
       this.theme = JSON.parse(savedKey).theme;
     },
   },
-  persist: true
+  persist: true,
 });
 
 if (import.meta.hot) {

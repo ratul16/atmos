@@ -121,10 +121,10 @@ const weeklyData = ref({});
 
 // Define methods
 const getForecastData = async (lat, lon) => {
-  isLoading.value = true;
+  // isLoading.value = true;
   let searchQuery = `forecast?lat=${lat}&lon=${lon}&units=metric`;
-  const response = await fetch(`/api/weather?query=${encodeURIComponent(searchQuery)}`);
-  console.log(response);
+  const { data } = await useFetch(`/api/weather?query=${encodeURIComponent(searchQuery)}`);
+  console.log(data.value.list);
   // if (response.data.value.cod === 200) {
   //   forecastData.value = response.data.value.list;
   //   groupWeatherByDay(response.data.value.list);
@@ -190,7 +190,9 @@ const generateChart = () => {
 // Lifecycle hooks and watchers
 onBeforeMount(() => {
   // groupWeatherByDay(forecastData.value);
-  if (props.coord && Object.keys(props.coord).length) {
+  console.log(props.coord);
+
+  if (Object.keys(props.coord).length !== 0) {
     getForecastData(props.coord.lat, props.coord.lon);
   }
 });
@@ -198,7 +200,7 @@ onBeforeMount(() => {
 watch(
   () => props.coord,
   (newValue) => {
-    console.log("Prop changed from", oldValue, "to", newValue);
+    console.log("Prop value changed to", newValue);
     getForecastData(newValue.lat, newValue.lon);
     // Perform any additional actions here
   }
