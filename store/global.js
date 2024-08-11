@@ -21,7 +21,7 @@ export const useGlobalStore = defineStore('global', {
     },
     async getWeatherData() {
       let searchQuery = `weather?q=${this.selectedLocation.name}`;
-      console.log("store call", this.selectedLocation);
+      // console.log("store call", this.selectedLocation);
 
       try {
         // always use $fetch not useFetch which is a composable
