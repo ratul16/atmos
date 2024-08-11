@@ -1,8 +1,8 @@
 <template>
-  <div class="h-screen bg-themeBackground p-5">
+  <div class="container py-4">
     <header>
       <Menubar :model="items">
-        <template #start>
+        <template #end>
           <svg
             width="56"
             height="41"

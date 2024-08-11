@@ -7,7 +7,7 @@
     >
       <h4>Fetching Weather Data...</h4>
     </div>
-    <Tabs :value="0" v-else>
+    <Tabs :value="0" scrollable v-else>
       <TabList>
         <Tab v-for="(day, index) in Object.keys(weeklyData)" :key="index" :value="index">
           {{

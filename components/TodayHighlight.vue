@@ -33,9 +33,9 @@
       </div>
       <div class="weather-card">
         <h5 class="text-muted">Condition <i class="fas fa-feather" /></h5>
-        <div class="d-flex align-items-center content">
+        <div class="flex align-items-center content">
           <img :src="`https://openweathermap.org/img/wn/${weatherData.icon}.png`" alt="" />
-          <span class="capitalize ml-1">{{ weatherData.description }}</span>
+          <span class="capitalize ml-1 condition">{{ weatherData.description }}</span>
         </div>
       </div>
       <div class="weather-card">
@@ -222,6 +222,9 @@ function checkAirQuality(aqi) {
         border-color: $secondary;
       }
       .content {
+        .condition {
+          font-size: 1.5rem;
+        }
         span {
           font-size: 2rem;
           font-weight: 600;
